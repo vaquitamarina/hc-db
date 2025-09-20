@@ -1,4 +1,4 @@
-CREATE OR REPLACE PROCEDURE registrar_usuario(
+CREATE OR REPLACE PROCEDURE register_user(
     IN p_nombre VARCHAR(255),
     IN p_apellido VARCHAR(255),
     IN p_dni VARCHAR(20),
