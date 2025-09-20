@@ -8,8 +8,6 @@ CREATE TABLE usuarios (
     apellido VARCHAR(255) NOT NULL,
     dni VARCHAR(20) UNIQUE NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
-    telefono VARCHAR(20),
-    direccion VARCHAR(255),
     rol VARCHAR(50) NOT NULL,
     contrasena_hash VARCHAR(255) NOT NULL
 );
@@ -21,12 +19,23 @@ CREATE TABLE pacientes (
     apellido VARCHAR(255) NOT NULL,
     dni VARCHAR(20) UNIQUE NOT NULL,
     fecha_nacimiento DATE,
-    sexo VARCHAR(20),
+    lugar_nacimiento VARCHAR(100),
+    estado_civil VARCHAR(50), --selector
+    sexo VARCHAR(20), --selector
+    nombre_conyuge VARCHAR(255),
+    ocupacion VARCHAR(100),
+    tiempo_residencia VARCHAR(100),
     direccion VARCHAR(255),
+    ultima_visita_dentista DATE,
+    motivo_ultima_visita_dentista TEXT,
+    ultima_visita_medico DATE,
+    motivo_ultima_visita_medico TEXT,
+    contacto_emergencia VARCHAR(255),
+    relacion_contacto_emergencia VARCHAR(100),
+    telefono_contacto_emergencia VARCHAR(20),
     telefono VARCHAR(20)
 );
 
--- Creación de la tabla `historias_clinicas`
 CREATE TABLE historias_clinicas (
     id_historia UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     id_paciente UUID NOT NULL,
@@ -36,7 +45,6 @@ CREATE TABLE historias_clinicas (
     CONSTRAINT fk_historias_clinicas_usuarios FOREIGN KEY (id_alumno) REFERENCES usuarios(id_usuario)
 );
 
--- Creación de la tabla `revisiones_historia`
 CREATE TABLE revisiones_historia (
     id_revision UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     id_historia UUID NOT NULL,
@@ -48,14 +56,13 @@ CREATE TABLE revisiones_historia (
     CONSTRAINT fk_revisiones_historia_usuarios FOREIGN KEY (id_docente) REFERENCES usuarios(id_usuario)
 );
 
--- Creación de la tabla `anamnesis`
+--Partes historia
 CREATE TABLE anamnesis (
   id_anamnesis UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   id_historia UUID NOT NULL,
   CONSTRAINT fk_anamnesis_historias_clinicas FOREIGN KEY (id_historia) REFERENCES historias_clinicas(id_historia)
 );
 
--- Creación de la tabla `motivos_consulta`
 CREATE TABLE motivos_consulta (
   id_motivo UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   id_anamnesis UUID NOT NULL,
@@ -63,11 +70,14 @@ CREATE TABLE motivos_consulta (
   CONSTRAINT fk_motivos_consulta_anamnesis FOREIGN KEY (id_anamnesis) REFERENCES anamnesis(id_anamnesis)
 );
 
--- Creación de la tabla `enfermedades_actuales`
 CREATE TABLE enfermedades_actuales (
   id_enfermedad UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   id_anamnesis UUID NOT NULL,
-  descripcion TEXT,
+  tiempo_enfermadad VARCHAR(100),
+  forma_inicio VARCHAR(100),
+  curso_enfermedad VARCHAR(100),
+  relato_enfermedad TEXT,
+  tratamientos_recibidos TEXT,
   CONSTRAINT fk_enfermedades_actuales_anamnesis FOREIGN KEY (id_anamnesis) REFERENCES anamnesis(id_anamnesis)
 );
 
@@ -75,7 +85,8 @@ CREATE TABLE enfermedades_actuales (
 CREATE TABLE antecedentes (
   id_antecedente UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   id_anamnesis UUID NOT NULL,
-  descripcion TEXT,
+  embarazada BOOLEAN,
+
   CONSTRAINT fk_antecedentes_anamnesis FOREIGN KEY (id_anamnesis) REFERENCES anamnesis(id_anamnesis)
 );
 
