@@ -4,6 +4,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- Creación de la tabla `usuarios`
 CREATE TABLE usuarios (
     id_usuario UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    usuario_login VARCHAR(50) UNIQUE NOT NULL,
     nombre VARCHAR(255) NOT NULL,
     apellido VARCHAR(255) NOT NULL,
     dni VARCHAR(20) UNIQUE NOT NULL,
@@ -11,6 +12,7 @@ CREATE TABLE usuarios (
     rol VARCHAR(50) NOT NULL,
     contrasena_hash VARCHAR(255) NOT NULL
 );
+
 
 -- Creación de la tabla `pacientes`
 CREATE TABLE pacientes (
