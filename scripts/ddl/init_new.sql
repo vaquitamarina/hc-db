@@ -1,6 +1,5 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- Estado civil
 CREATE TABLE estado_civil_catalogo (
     id_estado_civil SERIAL PRIMARY KEY,
     descripcion VARCHAR(50) UNIQUE NOT NULL
@@ -42,14 +41,9 @@ VALUES
     ('O+'), ('O-'),
     ('AB+'), ('AB-');
 
--- ========================================================
--- 2. ENUMS
--- ========================================================
 
--- Sexo biológico
 CREATE TYPE sexo_enum AS ENUM ('M', 'F', 'Otro');
 
--- Estado de revisión
 CREATE TYPE estado_revision_enum AS ENUM ('Pendiente', 'Aprobado', 'Rechazado');
 
 -- ========================================================
