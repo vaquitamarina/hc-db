@@ -2,6 +2,7 @@
 
 Este documento describe la estructura y las convenciones de la base de datos del proyecto. Su objetivo es servir como una referencia central para todo el equipo de desarrollo, asegurando la consistencia y facilitando la comprensión del esquema de datos.
 
+
 ---
 
 ### **📋 Convenciones de Nomenclatura**
