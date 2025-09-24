@@ -2,13 +2,13 @@ CREATE OR REPLACE PROCEDURE i_revision_historia(
     IN p_id_historia UUID,
     IN p_id_docente UUID,
     IN p_estado estado_revision_enum,
-    IN p_observaciones TEXT DEFAULT NULL
+    IN p_observacion TEXT DEFAULT NULL
 )
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    INSERT INTO revisiones_historia (id_historia, id_docente, estado, observaciones)
-    VALUES (p_id_historia, p_id_docente, p_estado, p_observaciones);
+    INSERT INTO revisiones_historia (id_historia, id_docente, fecha_revision, estado, observaciones)
+    VALUES (p_id_historia, p_id_docente, CURRENT_DATE, p_estado, p_observacion);
 
     RAISE NOTICE 'Revision de historia registrada exitosamente para historia % por docente %.', p_id_historia, p_id_docente;
 
