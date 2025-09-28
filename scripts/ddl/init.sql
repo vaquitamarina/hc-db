@@ -43,9 +43,11 @@ CREATE TABLE paciente (
 CREATE TABLE historia_clinica (
     id_historia UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     id_paciente UUID NOT NULL,
+    id_estudiante UUID NOT NULL,
     fecha_elaboracion DATE NOT NULL DEFAULT CURRENT_DATE,
-    alumno_responsable VARCHAR(200),
-    CONSTRAINT fk_historia_paciente FOREIGN KEY (id_paciente) REFERENCES paciente(id_paciente)
+    ultima_modificacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_historia_paciente FOREIGN KEY (id_paciente) REFERENCES paciente(id_paciente),
+    CONSTRAINT fk_historia_estudiante FOREIGN KEY (id_estudiante) REFERENCES usuario(id_usuario
 );
 
 CREATE TABLE revision_historia (
