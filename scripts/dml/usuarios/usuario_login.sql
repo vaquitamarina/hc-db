@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION get_user_login(p_usuario_login VARCHAR)
+CREATE OR REPLACE FUNCTION fn_usuario_login(p_usuario_login VARCHAR)
 RETURNS TABLE (
     id_usuario UUID,
     usuario_login VARCHAR,
@@ -13,7 +13,7 @@ BEGIN
     RETURN QUERY
     SELECT u.id_usuario, u.usuario_login, u.nombre, u.apellido, 
            u.dni, u.email, u.rol, u.contrasena_hash
-    FROM usuarios u
+    FROM usuario u
     WHERE u.usuario_login = p_usuario_login;
 END;
 $$ LANGUAGE plpgsql;

@@ -17,7 +17,7 @@ BEGIN
            u.apellido,
            u.dni,
            u.email
-    FROM usuarios u
+    FROM usuario u
     WHERE u.id_usuario = p_id_usuario;
 END;
 $$ LANGUAGE plpgsql;
