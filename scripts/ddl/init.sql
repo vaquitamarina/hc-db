@@ -109,7 +109,7 @@ CREATE TABLE antecedente_personal (
     CONSTRAINT fk_antpersonal_historia FOREIGN KEY (id_historia) REFERENCES historia_clinica(id_historia),
     CONSTRAINT fk_grupo_sanguineo FOREIGN KEY (id_grupo_sanguineo) REFERENCES catalogo_grupo_sanguineo(id_grupo_sanguineo)
 );
-
+--- borrar
 CREATE TABLE antecedente_habito (
     id_ant_habito UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     id_antecedente UUID,
@@ -119,7 +119,10 @@ CREATE TABLE antecedente_habito (
     CONSTRAINT fk_anthabito_catalogo FOREIGN KEY (id_habito) REFERENCES catalogo_habito(id_habito)
 );
 
-CREATE TABLE antecedente_patologico (
+---
+
+--- borrar la tabla antecedente_patologico
+CREATE TABLE antecedente_medico (
     id_ant_patologico UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     id_historia UUID,
     salud_general VARCHAR(50),
@@ -133,15 +136,6 @@ CREATE TABLE antecedente_patologico (
     CONSTRAINT fk_antpat_historia FOREIGN KEY (id_historia) REFERENCES historia_clinica(id_historia)
 );
 
-CREATE TABLE antecedente_enfermedad (
-    id_ant_enf UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    id_ant_patologico UUID,
-    id_enfermedad UUID,
-    tiene BOOLEAN,
-    CONSTRAINT fk_antenf_ant FOREIGN KEY (id_ant_patologico) REFERENCES antecedente_patologico(id_ant_patologico),
-    CONSTRAINT fk_antenf_catalogo FOREIGN KEY (id_enfermedad) REFERENCES catalogo_enfermedad(id_enfermedad)
-);
-
 CREATE TABLE antecedente_familiar (
     id_ant_fam UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     id_historia UUID,
@@ -149,10 +143,28 @@ CREATE TABLE antecedente_familiar (
     CONSTRAINT fk_antfam_historia FOREIGN KEY (id_historia) REFERENCES historia_clinica(id_historia)
 );
 
-CREATE TABLE examen_fisico (
+CREATE TABLE antecedente_cumplimiento (
+    id_ant_cumplimiento UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id_historia UUID,
+    dentista_dolor BOOLEAN,
+    frecuenca_dentista VARCHAR(100),
+    higiene_oral VARCHAR(100),
+    tranquilo BOOLEAN,
+    nervioso BOOLEAN,
+    panico BOOLEAN,
+    desagrado_atencion TEXT,
+    CONSTRAINT fk_antcumpl_historia FOREIGN KEY (id_historia) REFERENCES historia_clinica(id_historia)
+);
+
+---EXAMEN FISICO
+---borrar tabla examen_fisico
+CREATE TABLE examen_general (
     id_examen UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     id_historia UUID,
-    aspecto_general VARCHAR(200),
+    posicion UUID,
+    actitud BOOLEAN,
+    deambulacion UUID,
+    facies VARCHAR(100),
     conciencia TEXT,
     constitucion VARCHAR(50),
     estado_nutritivo VARCHAR(50),
@@ -163,7 +175,9 @@ CREATE TABLE examen_fisico (
     peso DECIMAL(5,2),
     talla DECIMAL(5,2),
     observaciones TEXT,
-    CONSTRAINT fk_examen_historia FOREIGN KEY (id_historia) REFERENCES historia_clinica(id_historia)
+    CONSTRAINT fk_examen_historia FOREIGN KEY (id_historia) REFERENCES historia_clinica(id_historia),
+    CONSTRAINT fk_posicion FOREIGN KEY (posicion) REFERENCES catalogo_posicion(posicion),
+    CONSTRAINT fk_deambulacion FOREIGN KEY (deambulacion) REFERENCES catalogo_posicion(posicion)
 );
 
 CREATE TABLE diagnostico (
