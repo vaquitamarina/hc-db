@@ -50,8 +50,8 @@ CREATE TABLE catalogo_estado_revision (
     nombre VARCHAR(20) NOT NULL
 );
 
-CREATE TABLE catalogo_posicion_dental (
-    id_posicion_dental UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+CREATE TABLE catalogo_posicion(
+    id_posicion UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     posicion VARCHAR(50) NOT NULL
 );
   

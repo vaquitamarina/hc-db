@@ -161,7 +161,7 @@ CREATE TABLE antecedente_cumplimiento (
 CREATE TABLE examen_general (
     id_examen UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     id_historia UUID,
-    posicion UUID,
+    id_posicion UUID,
     actitud BOOLEAN,
     deambulacion UUID,
     facies VARCHAR(100),
@@ -176,7 +176,7 @@ CREATE TABLE examen_general (
     talla DECIMAL(5,2),
     observaciones TEXT,
     CONSTRAINT fk_examen_historia FOREIGN KEY (id_historia) REFERENCES historia_clinica(id_historia),
-    CONSTRAINT fk_posicion FOREIGN KEY (posicion) REFERENCES catalogo_posicion(posicion),
+    CONSTRAINT fk_posicion FOREIGN KEY (id_posicion) REFERENCES catalogo_posicion(id_posicion),
     CONSTRAINT fk_deambulacion FOREIGN KEY (deambulacion) REFERENCES catalogo_posicion(posicion)
 );
 
