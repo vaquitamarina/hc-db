@@ -54,4 +54,26 @@ CREATE TABLE catalogo_posicion(
     id_posicion UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     posicion VARCHAR(50) NOT NULL
 );
-  
+
+-- CATÁLOGOS BASE PARA EXAMEN REGIONAL 
+CREATE TABLE catalogo_medida_regional (
+    id_medida UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    tipo_medida VARCHAR(50) NOT NULL, -- Ej: 'CRANEO_FORMA', 'CARA_FORMA', 'PERFIL_AP'
+    descripcion VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE catalogo_atm_trayectoria (
+    id_trayectoria UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    descripcion VARCHAR(50) NOT NULL -- 'Recta', 'Deflexión', 'Desviación'
+);
+
+CREATE TABLE catalogo_dolor_grado (
+    id_grado UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    descripcion VARCHAR(50) NOT NULL
+);
+
+-- catálogo para los tipos de movimiento (Lateralidad, Protrusión, Apertura, Cierre)
+CREATE TABLE catalogo_movimiento_mandibular (
+    id_movimiento UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    descripcion VARCHAR(50) NOT NULL
+);

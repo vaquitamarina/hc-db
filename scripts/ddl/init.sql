@@ -192,6 +192,89 @@ CREATE TABLE examen_general (
     CONSTRAINT fk_deambulacion FOREIGN KEY (deambulacion) REFERENCES catalogo_posicion(posicion)
 );
 
+-- 2. EXAMEN REGIONAL: CABEZA Y CUELLO
+CREATE TABLE examen_regional (
+    id_regional UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id_historia UUID UNIQUE,
+
+    -- CABEZA (FKs a catalogo_medida_regional)
+    id_craneo_forma UUID,
+    id_cara_forma UUID,
+    id_perfil_ap UUID,
+
+    -- OJOS y ANEXOS
+    ojos_cejas_adecuada BOOLEAN, -- Adecuada/Alterada (usando booleano, si es FALSE el texto va a obs)
+    ojos_implantacion_obs TEXT,  -- Caja de texto de "Alterada"
+    escleroticas VARCHAR(100), -- Limpias/Pigmentadas
+    agudeza_visual_conservada BOOLEAN, -- Sí/No
+    iris_color VARCHAR(50),
+    arco_senil VARCHAR(50),
+
+    -- NARIZ
+    nariz_forma VARCHAR(100),
+    nariz_permeables BOOLEAN,          -- Sí/No
+    nariz_secreciones BOOLEAN,         -- Sí/No
+    senos_paranasales_dolorosos BOOLEAN, -- Sí/No
+
+    -- OIDOS
+    oidos_anomalias_morfologicas BOOLEAN, -- No/Sí
+    oidos_anomalias_obs TEXT,             -- Caja de texto de "Sí"
+    oidos_secreciones BOOLEAN,           -- Sí/No
+    audicion_conservada BOOLEAN,         -- Sí/No
+
+    -- CUELLO (2.2 CUELLO)
+    cuello_simetrico BOOLEAN,           -- Simétrico/No simétrico
+    cuello_simetrico_obs TEXT,
+    cuello_movilidad_conservada BOOLEAN, -- Conservada/Disminuida
+    cuello_movilidad_obs TEXT,
+    laringe_alineada BOOLEAN,            -- Alineada/No alineada
+    laringe_alineada_obs TEXT,
+    cuello_otros TEXT,
+
+    CONSTRAINT fk_er_historia FOREIGN KEY (id_historia) REFERENCES historia_clinica(id_historia),
+    CONSTRAINT fk_er_craneo FOREIGN KEY (id_craneo_forma) REFERENCES catalogo_medida_regional(id_medida),
+    CONSTRAINT fk_er_cara FOREIGN KEY (id_cara_forma) REFERENCES catalogo_medida_regional(id_medida),
+    CONSTRAINT fk_er_perfil FOREIGN KEY (id_perfil_ap) REFERENCES catalogo_medida_regional(id_medida)
+);
+
+-- 1. EXAMEN ATM MAESTRO 
+CREATE TABLE examen_atm (
+    id_examen_atm UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id_historia UUID UNIQUE,
+
+    -- 1. Trayectoria de Apertura (de descanso a apertura)
+    id_trayectoria UUID, -- FK a catalogo_atm_trayectoria (Recta, Deflexión, Desviación)
+
+    -- 2. Movimiento Mandibular (Coordinación y Apertura Máxima)
+    coordinacion_condilar BOOLEAN, -- Checkbox: Sí/No
+    apertura_maxima_mm NUMERIC(5, 2), -- Apertura máxima … mm
+    observaciones TEXT, -- Observaciones
+
+    -- 3. Músculos masticatorios (Dolor)
+    musculos_dolor_presente BOOLEAN, -- Presente/Ausente
+    id_musculos_dolor_grado UUID,  -- FK a catalogo_dolor_grado
+    musculos_dolor_zona TEXT,      -- Caja de texto (zona)
+
+    CONSTRAINT fk_eatm_historia FOREIGN KEY (id_historia) REFERENCES historia_clinica(id_historia),
+    CONSTRAINT fk_eatm_trayectoria FOREIGN KEY (id_trayectoria) REFERENCES catalogo_atm_trayectoria(id_trayectoria),
+    CONSTRAINT fk_eatm_grado FOREIGN KEY (id_musculos_dolor_grado) REFERENCES catalogo_dolor_grado(id_grado)
+);
+-- Movimiento Mandibular (Lateralidad, Protrusión, Apertura, Cierre)
+CREATE TABLE atm_movimiento_condicion (
+    id_movimiento_condicion UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id_examen_atm UUID NOT NULL,
+    id_movimiento UUID NOT NULL, -- FK a catalogo_movimiento_mandibular
+
+    -- Los síntomas de cada movimiento (Radio button Sí/No)
+    dolor BOOLEAN,
+    ruido BOOLEAN,
+    salto BOOLEAN,
+
+    CONSTRAINT fk_amc_examen FOREIGN KEY (id_examen_atm) REFERENCES examen_atm(id_examen_atm),
+    CONSTRAINT fk_amc_movimiento FOREIGN KEY (id_movimiento) REFERENCES catalogo_movimiento_mandibular(id_movimiento),
+    UNIQUE (id_examen_atm, id_movimiento) -- Solo puede haber un registro por tipo de movimiento por examen.
+);
+
 CREATE TABLE diagnostico (
     id_diagnostico UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     id_historia UUID,
