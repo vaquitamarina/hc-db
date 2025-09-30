@@ -62,6 +62,18 @@ CREATE TABLE revision_historia (
   CONSTRAINT fk_revision_estado FOREIGN KEY (id_estado_revision) REFERENCES catalogo_estado_revision(id_estado_revision)
 );
 
+CREATE TABLE auditoria (
+  id_auditoria UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id_usuario UUID NOT NULL,
+  fecha_cambio TIMESTAMP NOT NULL DEFAULT NOW(),
+  nombre_tabla VARCHAR(50) NOT NULL,
+  id_registro_afectado UUID NOT NULL,
+  accion VARCHAR(10) NOT NULL,
+  datos_anteriores JSONB,
+  datos_nuevos JSONB,
+  CONSTRAINT fk_auditoria_usuarios FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+);
+
 CREATE TABLE motivo_consulta (
     id_motivo UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     id_historia UUID,
