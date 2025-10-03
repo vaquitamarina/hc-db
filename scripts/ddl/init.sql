@@ -77,7 +77,9 @@ CREATE TABLE filiacion (
     acompaniante varchar(200),
     CONSTRAINT fk_paciente_estado_civil FOREIGN KEY (id_estado_civil) REFERENCES catalogo_estado_civil (id_estado_civil),
     CONSTRAINT fk_paciente_ocupacion FOREIGN KEY (id_ocupacion) REFERENCES catalogo_ocupacion (id_ocupacion),
-    CONSTRAINT fk_paciente_grado FOREIGN KEY (id_grado_instruccion) REFERENCES catalogo_grado_instruccion (id_grado_instruccion))
+    CONSTRAINT fk_paciente_grado FOREIGN KEY (id_grado_instruccion) REFERENCES catalogo_grado_instruccion (id_grado_instruccion)
+);
+
 CREATE TABLE motivo_consulta (
     id_motivo uuid PRIMARY KEY DEFAULT gen_random_uuid (),
     id_historia uuid,
@@ -126,18 +128,6 @@ CREATE TABLE antecedente_personal (
     CONSTRAINT fk_grupo_sanguineo FOREIGN KEY (id_grupo_sanguineo) REFERENCES catalogo_grupo_sanguineo (id_grupo_sanguineo)
 );
 
---- borrar
-CREATE TABLE antecedente_habito (
-    id_ant_habito uuid PRIMARY KEY DEFAULT gen_random_uuid (),
-    id_antecedente uuid,
-    id_habito uuid,
-    valor boolean,
-    CONSTRAINT fk_anthabito_ant FOREIGN KEY (id_antecedente) REFERENCES antecedente_personal (id_antecedente),
-    CONSTRAINT fk_anthabito_catalogo FOREIGN KEY (id_habito) REFERENCES catalogo_habito (id_habito)
-);
-
----
---- borrar la tabla antecedente_patologico
 CREATE TABLE antecedente_medico (
     id_ant_patologico uuid PRIMARY KEY DEFAULT gen_random_uuid (),
     id_historia uuid,
@@ -172,8 +162,6 @@ CREATE TABLE antecedente_cumplimiento (
     CONSTRAINT fk_antcumpl_historia FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia)
 );
 
----EXAMEN FISICO
----borrar tabla examen_fisico
 CREATE TABLE examen_general (
     id_examen uuid PRIMARY KEY DEFAULT gen_random_uuid (),
     id_historia uuid,
@@ -192,8 +180,7 @@ CREATE TABLE examen_general (
     talla DECIMAL(5, 2),
     observaciones text,
     CONSTRAINT fk_examen_historia FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia),
-    CONSTRAINT fk_posicion FOREIGN KEY (id_posicion) REFERENCES catalogo_posicion (id_posicion),
-    CONSTRAINT fk_deambulacion FOREIGN KEY (deambulacion) REFERENCES catalogo_posicion (posicion)
+    CONSTRAINT fk_posicion FOREIGN KEY (id_posicion) REFERENCES catalogo_posicion (id_posicion)
 );
 
 CREATE TABLE diagnostico (
