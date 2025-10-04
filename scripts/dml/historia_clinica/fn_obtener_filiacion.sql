@@ -1,28 +1,29 @@
-CREATE OR REPLACE FUNCTION obtener_filiacion(p_id_historia UUID)
-RETURNS TABLE (
-    id_filiacion UUID,
-    id_historia UUID,
-    raza VARCHAR,
-    fecha_nacimiento DATE,
-    lugar VARCHAR,
-    estado_civil VARCHAR,
-    nombre_conyuge VARCHAR,
-    ocupacion VARCHAR,
-    lugar_procedencia VARCHAR,
-    tiempo_residencia_tacna VARCHAR,
-    direccion VARCHAR,
-    grado_instruccion VARCHAR,
-    ultima_visita_dentista DATE,
-    motivo_visita_dentista VARCHAR,
-    ultima_visita_medico DATE,
-    motivo_visita_medico VARCHAR,
-    contacto_emergencia VARCHAR,
-    telefono_emergencia VARCHAR,
-    acompaniante VARCHAR
-) AS $$
+CREATE OR REPLACE FUNCTION fn_obtener_filiacion (p_id_historia uuid)
+    RETURNS TABLE (
+        id_filiacion uuid,
+        id_historia uuid,
+        raza varchar,
+        fecha_nacimiento date,
+        lugar varchar,
+        estado_civil varchar,
+        nombre_conyuge varchar,
+        ocupacion varchar,
+        lugar_procedencia varchar,
+        tiempo_residencia_tacna varchar,
+        direccion varchar,
+        grado_instruccion varchar,
+        ultima_visita_dentista date,
+        motivo_visita_dentista varchar,
+        ultima_visita_medico date,
+        motivo_visita_medico varchar,
+        contacto_emergencia varchar,
+        telefono_emergencia varchar,
+        acompaniante varchar
+    )
+    AS $$
 BEGIN
     RETURN QUERY
-    SELECT 
+    SELECT
         f.id_filiacion,
         f.id_historia,
         f.raza,
@@ -42,10 +43,14 @@ BEGIN
         f.contacto_emergencia,
         f.telefono_emergencia,
         f.acompaniante
-    FROM filiacion f
-    INNER JOIN catalogo_estado_civil ec ON f.id_estado_civil = ec.id_estado_civil
-    INNER JOIN catalogo_ocupacion oc ON f.id_ocupacion = oc.id_ocupacion
-    INNER JOIN catalogo_grado_instruccion gi ON f.id_grado_instruccion = gi.id_grado_instruccion
-    WHERE f.id_historia = p_id_historia;
+    FROM
+        filiacion f
+        INNER JOIN catalogo_estado_civil ec ON f.id_estado_civil = ec.id_estado_civil
+        INNER JOIN catalogo_ocupacion oc ON f.id_ocupacion = oc.id_ocupacion
+        INNER JOIN catalogo_grado_instruccion gi ON f.id_grado_instruccion = gi.id_grado_instruccion
+    WHERE
+        f.id_historia = p_id_historia;
 END;
-$$ LANGUAGE plpgsql;
+$$
+LANGUAGE plpgsql;
+
