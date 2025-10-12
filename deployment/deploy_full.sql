@@ -1,0 +1,71 @@
+------------------------------------------------------------------
+-- ARCHIVO: deploy_full.sql
+-- DESCRIPCION: Script maestro para deployment completo del sistema
+-- PROYECTO: SN-001-2025 - Sistema de Historias Clínicas
+-- AUTOR: Equipo BD II - ESIS UNJBG
+-- FECHA: 12/10/2025
+-- USO: psql -U postgres -d nombre_bd -f deploy_full.sql
+------------------------------------------------------------------
+
+\echo '========================================='
+\echo 'INICIO DE DEPLOYMENT'
+\echo 'Sistema de Historias Clínicas'
+\echo 'Versión: 1.0.0'
+\echo '========================================='
+\echo ''
+
+-- Configuración de la sesión
+SET client_min_messages TO WARNING;
+
+\echo '1. Creando tablas de catálogos...'
+\i ../database/tables/01_catalogos.sql
+
+\echo '2. Creando tabla de usuarios...'
+\i ../database/tables/02_usuarios.sql
+
+\echo '3. Creando tabla de pacientes...'
+\i ../database/tables/03_pacientes.sql
+
+\echo '4. Creando tablas de historia clínica...'
+\i ../database/tables/04_historia_clinica.sql
+
+\echo '5. Creando tablas de anamnesis...'
+\i ../database/tables/05_anamnesis.sql
+
+\echo '6. Creando tablas de exámenes...'
+\i ../database/tables/06_examenes.sql
+
+\echo '7. Creando tablas de diagnósticos...'
+\i ../database/tables/07_diagnosticos.sql
+
+\echo '8. Creando tabla de auditoría...'
+\i ../database/tables/08_auditoria.sql
+
+\echo '9. Creando funciones...'
+\i ../database/functions/usuarios/s_usuario.sql
+\i ../database/functions/usuarios/s_usuario_login.sql
+\i ../database/functions/historia_clinica/s_filiacion.sql
+\i ../database/functions/estudiantes/s_paciente_adulto.sql
+
+\echo '10. Creando procedimientos...'
+\i ../database/procedures/usuarios/i_usuario.sql
+\i ../database/procedures/historia_clinica/i_historia_clinica.sql
+\i ../database/procedures/historia_clinica/i_filiacion.sql
+\i ../database/procedures/historia_clinica/i_revision_historia.sql
+\i ../database/procedures/auditoria/i_auditoria.sql
+
+\echo '11. Insertando datos iniciales (seeds)...'
+\i ../seeds/01_catalogos_base.sql
+\i ../seeds/02_usuarios_estudiantes.sql
+
+\echo ''
+\echo '========================================='
+\echo 'DEPLOYMENT COMPLETADO EXITOSAMENTE'
+\echo '========================================='
+\echo ''
+\echo 'Estudiantes creados: 15 usuarios reales'
+\echo 'Primer estudiante: 2023-119018 (Vaquita Marina)'
+\echo 'Rol: student'
+\echo ''
+\echo 'Las contraseñas están hasheadas con Argon2ID'
+\echo '========================================'

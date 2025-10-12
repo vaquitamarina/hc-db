@@ -9,7 +9,7 @@ CREATE TABLE subseccion_hc (
   id_seccion_hc UUID,
   nombre VARCHAR(100) NOT NULL,
   orden INT NOT NULL,
-  CONSTRAINT fk_subseccion_seccion FOREIGN KEY (id_seccion_hc) REFERENCES seccion_hc(id_seccion_hc),
+  CONSTRAINT fk_subseccion_hc_seccion_hc FOREIGN KEY (id_seccion_hc) REFERENCES seccion_hc(id_seccion_hc),
   UNIQUE (id_seccion_hc, orden)
 );
 

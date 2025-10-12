@@ -1,0 +1,12 @@
+⚠️ ⚠️ ⚠️ DEPRECATED - NO USAR ⚠️ ⚠️ ⚠️
+
+Esta carpeta contiene la estructura ANTIGUA del proyecto.
+
+🚀 NUEVA UBICACIÓN: ../database/
+
+📅 Fecha de deprecación: 12/10/2025
+🗑️ Fecha de eliminación programada: 12/11/2025
+
+Ver: ../scripts/README_LEGACY.md para mapeo completo
+
+⚠️ ⚠️ ⚠️ DEPRECATED - NO USAR ⚠️ ⚠️ ⚠️

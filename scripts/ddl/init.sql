@@ -18,7 +18,7 @@ CREATE TABLE paciente (
     id_sexo uuid,
     telefono varchar(20),
     email varchar(200),
-    CONSTRAINT fk_paciente_sexo FOREIGN KEY (id_sexo) REFERENCES catalogo_sexo (id_sexo)
+    CONSTRAINT fk_paciente_catalogo_sexo FOREIGN KEY (id_sexo) REFERENCES catalogo_sexo (id_sexo)
 );
 
 CREATE TABLE historia_clinica (
@@ -27,8 +27,8 @@ CREATE TABLE historia_clinica (
     id_estudiante uuid NOT NULL,
     fecha_elaboracion date NOT NULL DEFAULT CURRENT_DATE,
     ultima_modificacion timestamp DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_historia_paciente FOREIGN KEY (id_paciente) REFERENCES paciente (id_paciente),
-    CONSTRAINT fk_historia_estudiante FOREIGN KEY (id_estudiante) REFERENCES usuario (id_usuario)
+    CONSTRAINT fk_historia_clinica_paciente FOREIGN KEY (id_paciente) REFERENCES paciente (id_paciente),
+    CONSTRAINT fk_historia_clinica_usuario FOREIGN KEY (id_estudiante) REFERENCES usuario (id_usuario)
 );
 
 CREATE TABLE revision_historia (
@@ -38,9 +38,9 @@ CREATE TABLE revision_historia (
     fecha date DEFAULT CURRENT_DATE,
     id_estado_revision uuid,
     observaciones text,
-    CONSTRAINT fk_revision_historia FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia),
-    CONSTRAINT fk_revision_docente FOREIGN KEY (id_docente) REFERENCES usuario (id_usuario),
-    CONSTRAINT fk_revision_estado FOREIGN KEY (id_estado_revision) REFERENCES catalogo_estado_revision (id_estado_revision)
+    CONSTRAINT fk_revision_historia_historia_clinica FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia),
+    CONSTRAINT fk_revision_historia_usuario FOREIGN KEY (id_docente) REFERENCES usuario (id_usuario),
+    CONSTRAINT fk_revision_historia_catalogo_estado_revision FOREIGN KEY (id_estado_revision) REFERENCES catalogo_estado_revision (id_estado_revision)
 );
 
 CREATE TABLE auditoria (
@@ -52,7 +52,7 @@ CREATE TABLE auditoria (
     accion varchar(10) NOT NULL,
     datos_anteriores jsonb,
     datos_nuevos jsonb,
-    CONSTRAINT fk_auditoria_usuarios FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario)
+    CONSTRAINT fk_auditoria_usuario FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario)
 );
 
 CREATE TABLE filiacion (
@@ -75,17 +75,17 @@ CREATE TABLE filiacion (
     contacto_emergencia varchar(200),
     telefono_emergencia varchar(20),
     acompaniante varchar(200),
-    CONSTRAINT fk_paciente_estado_civil FOREIGN KEY (id_estado_civil) REFERENCES catalogo_estado_civil (id_estado_civil),
-    CONSTRAINT fk_paciente_ocupacion FOREIGN KEY (id_ocupacion) REFERENCES catalogo_ocupacion (id_ocupacion),
-    CONSTRAINT fk_paciente_grado FOREIGN KEY (id_grado_instruccion) REFERENCES catalogo_grado_instruccion (id_grado_instruccion),
-    CONSTRAINT fk_historia_filiacion FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia)
+    CONSTRAINT fk_filiacion_catalogo_estado_civil FOREIGN KEY (id_estado_civil) REFERENCES catalogo_estado_civil (id_estado_civil),
+    CONSTRAINT fk_filiacion_catalogo_ocupacion FOREIGN KEY (id_ocupacion) REFERENCES catalogo_ocupacion (id_ocupacion),
+    CONSTRAINT fk_filiacion_catalogo_grado_instruccion FOREIGN KEY (id_grado_instruccion) REFERENCES catalogo_grado_instruccion (id_grado_instruccion),
+    CONSTRAINT fk_filiacion_historia_clinica FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia)
 );
 
 CREATE TABLE motivo_consulta (
     id_motivo uuid PRIMARY KEY DEFAULT gen_random_uuid (),
     id_historia uuid,
     motivo text,
-    CONSTRAINT fk_motivo_historia FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia)
+    CONSTRAINT fk_motivo_consulta_historia_clinica FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia)
 );
 
 CREATE TABLE enfermedad_actual (
@@ -97,7 +97,7 @@ CREATE TABLE enfermedad_actual (
     curso varchar(200),
     relato text,
     tratamiento_prev text,
-    CONSTRAINT fk_enfactual_historia FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia)
+    CONSTRAINT fk_enfermedad_actual_historia_clinica FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia)
 );
 
 CREATE TABLE antecedente_personal (
@@ -125,8 +125,8 @@ CREATE TABLE antecedente_personal (
     muerde_labios boolean,
     otros_habitos text,
     frecuencia_cepillado int,
-    CONSTRAINT fk_antpersonal_historia FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia),
-    CONSTRAINT fk_grupo_sanguineo FOREIGN KEY (id_grupo_sanguineo) REFERENCES catalogo_grupo_sanguineo (id_grupo_sanguineo)
+    CONSTRAINT fk_antecedente_personal_historia_clinica FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia),
+    CONSTRAINT fk_antecedente_personal_catalogo_grupo_sanguineo FOREIGN KEY (id_grupo_sanguineo) REFERENCES catalogo_grupo_sanguineo (id_grupo_sanguineo)
 );
 
 CREATE TABLE antecedente_medico (
@@ -140,14 +140,14 @@ CREATE TABLE antecedente_medico (
     alergias text,
     medicamentos_contraindicados text,
     odontologicos text,
-    CONSTRAINT fk_antpat_historia FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia)
+    CONSTRAINT fk_antecedente_medico_historia_clinica FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia)
 );
 
 CREATE TABLE antecedente_familiar (
     id_ant_fam uuid PRIMARY KEY DEFAULT gen_random_uuid (),
     id_historia uuid,
     descripcion text,
-    CONSTRAINT fk_antfam_historia FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia)
+    CONSTRAINT fk_antecedente_familiar_historia_clinica FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia)
 );
 
 CREATE TABLE antecedente_cumplimiento (
@@ -160,7 +160,7 @@ CREATE TABLE antecedente_cumplimiento (
     nervioso boolean,
     panico boolean,
     desagrado_atencion text,
-    CONSTRAINT fk_antcumpl_historia FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia)
+    CONSTRAINT fk_antecedente_cumplimiento_historia_clinica FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia)
 );
 
 CREATE TABLE examen_general (
@@ -180,8 +180,8 @@ CREATE TABLE examen_general (
     peso DECIMAL(5, 2),
     talla DECIMAL(5, 2),
     observaciones text,
-    CONSTRAINT fk_examen_historia FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia),
-    CONSTRAINT fk_posicion FOREIGN KEY (id_posicion) REFERENCES catalogo_posicion (id_posicion)
+    CONSTRAINT fk_examen_general_historia_clinica FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia),
+    CONSTRAINT fk_examen_general_catalogo_posicion FOREIGN KEY (id_posicion) REFERENCES catalogo_posicion (id_posicion)
 );
 
 -- 2. EXAMEN REGIONAL: CABEZA Y CUELLO
@@ -217,10 +217,10 @@ CREATE TABLE examen_regional (
     laringe_alineada boolean, -- Alineada/No alineada
     laringe_alineada_obs text,
     cuello_otros text,
-    CONSTRAINT fk_er_historia FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia),
-    CONSTRAINT fk_er_craneo FOREIGN KEY (id_craneo_forma) REFERENCES catalogo_medida_regional (id_medida),
-    CONSTRAINT fk_er_cara FOREIGN KEY (id_cara_forma) REFERENCES catalogo_medida_regional (id_medida),
-    CONSTRAINT fk_er_perfil FOREIGN KEY (id_perfil_ap) REFERENCES catalogo_medida_regional (id_medida)
+    CONSTRAINT fk_examen_regional_historia_clinica FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia),
+    CONSTRAINT fk_examen_regional_catalogo_medida_regional_craneo FOREIGN KEY (id_craneo_forma) REFERENCES catalogo_medida_regional (id_medida),
+    CONSTRAINT fk_examen_regional_catalogo_medida_regional_cara FOREIGN KEY (id_cara_forma) REFERENCES catalogo_medida_regional (id_medida),
+    CONSTRAINT fk_examen_regional_catalogo_medida_regional_perfil FOREIGN KEY (id_perfil_ap) REFERENCES catalogo_medida_regional (id_medida)
 );
 
 -- 1. EXAMEN ATM MAESTRO
@@ -237,9 +237,9 @@ CREATE TABLE examen_atm (
     musculos_dolor_presente boolean, -- Presente/Ausente
     id_musculos_dolor_grado uuid, -- FK a catalogo_dolor_grado
     musculos_dolor_zona text, -- Caja de texto (zona)
-    CONSTRAINT fk_eatm_historia FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia),
-    CONSTRAINT fk_eatm_trayectoria FOREIGN KEY (id_trayectoria) REFERENCES catalogo_atm_trayectoria (id_trayectoria),
-    CONSTRAINT fk_eatm_grado FOREIGN KEY (id_musculos_dolor_grado) REFERENCES catalogo_dolor_grado (id_grado)
+    CONSTRAINT fk_examen_atm_historia_clinica FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia),
+    CONSTRAINT fk_examen_atm_catalogo_atm_trayectoria FOREIGN KEY (id_trayectoria) REFERENCES catalogo_atm_trayectoria (id_trayectoria),
+    CONSTRAINT fk_examen_atm_catalogo_dolor_grado FOREIGN KEY (id_musculos_dolor_grado) REFERENCES catalogo_dolor_grado (id_grado)
 );
 
 -- Movimiento Mandibular (Lateralidad, Protrusión, Apertura, Cierre)
@@ -251,8 +251,8 @@ CREATE TABLE atm_movimiento_condicion (
     dolor boolean,
     ruido boolean,
     salto boolean,
-    CONSTRAINT fk_amc_examen FOREIGN KEY (id_examen_atm) REFERENCES examen_atm (id_examen_atm),
-    CONSTRAINT fk_amc_movimiento FOREIGN KEY (id_movimiento) REFERENCES catalogo_movimiento_mandibular (id_movimiento),
+    CONSTRAINT fk_atm_movimiento_condicion_examen_atm FOREIGN KEY (id_examen_atm) REFERENCES examen_atm (id_examen_atm),
+    CONSTRAINT fk_atm_movimiento_condicion_catalogo_movimiento_mandibular FOREIGN KEY (id_movimiento) REFERENCES catalogo_movimiento_mandibular (id_movimiento),
     UNIQUE (id_examen_atm, id_movimiento) -- Solo puede haber un registro por tipo de movimiento por examen.
 );
 
@@ -262,7 +262,7 @@ CREATE TABLE diagnostico (
     descripcion text,
     definitivo boolean,
     fecha date,
-    CONSTRAINT fk_diag_historia FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia)
+    CONSTRAINT fk_diagnostico_historia_clinica FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia)
 );
 
 CREATE TABLE referencia_clinica (
@@ -271,8 +271,8 @@ CREATE TABLE referencia_clinica (
     id_clinica uuid,
     observaciones text,
     fecha date,
-    CONSTRAINT fk_ref_historia FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia),
-    CONSTRAINT fk_ref_clinica FOREIGN KEY (id_clinica) REFERENCES catalogo_clinica (id_clinica)
+    CONSTRAINT fk_referencia_clinica_historia_clinica FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia),
+    CONSTRAINT fk_referencia_clinica_catalogo_clinica FOREIGN KEY (id_clinica) REFERENCES catalogo_clinica (id_clinica)
 );
 
 CREATE TABLE examen_auxiliar (
@@ -280,8 +280,8 @@ CREATE TABLE examen_auxiliar (
     id_historia uuid,
     id_examen uuid,
     detalle varchar(200),
-    CONSTRAINT fk_exaux_historia FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia),
-    CONSTRAINT fk_exaux_catalogo FOREIGN KEY (id_examen) REFERENCES catalogo_examen_auxiliar (id_examen)
+    CONSTRAINT fk_examen_auxiliar_historia_clinica FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia),
+    CONSTRAINT fk_examen_auxiliar_catalogo_examen_auxiliar FOREIGN KEY (id_examen) REFERENCES catalogo_examen_auxiliar (id_examen)
 );
 
 CREATE TABLE evolucion (
@@ -290,6 +290,6 @@ CREATE TABLE evolucion (
     fecha date,
     actividad text,
     alumno varchar(200),
-    CONSTRAINT fk_evol_historia FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia)
+    CONSTRAINT fk_evolucion_historia_clinica FOREIGN KEY (id_historia) REFERENCES historia_clinica (id_historia)
 );
 
