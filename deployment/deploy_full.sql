@@ -54,23 +54,44 @@ SET client_min_messages TO WARNING;
 \i ../database/procedures/historia_clinica/i_revision_historia.sql
 \i ../database/procedures/auditoria/i_auditoria.sql
 
-\echo '11. Aplicando constraints...'
+\echo '11. Desplegando módulo de Pacientes...'
+\i ../database/procedures/pacientes/i_paciente.sql
+\i ../database/procedures/pacientes/u_paciente.sql
+\i ../database/procedures/pacientes/d_paciente.sql
+\i ../database/functions/pacientes/s_paciente_by_id.sql
+\i ../database/functions/pacientes/s_paciente_by_dni.sql
+\i ../database/functions/pacientes/s_all_pacientes.sql
+\i ../database/functions/pacientes/s_pacientes_count.sql
+\i ../database/functions/pacientes/s_pacientes_sin_historia_clinica.sql
+\i ../database/functions/pacientes/s_paciente_existe.sql
+
+\echo '12. Aplicando constraints...'
 \i ../database/constraints/foreign_keys.sql
 \i ../database/constraints/check_constraints.sql
 \i ../database/constraints/business_rules.sql
 
-\echo '12. Insertando datos iniciales (seeds)...'
+\echo '13. Insertando datos iniciales (seeds)...'
 \i ../seeds/01_catalogos_base.sql
 \i ../seeds/02_usuarios_estudiantes.sql
+\i ../seeds/03_pacientes_desarrollo.sql
 
 \echo ''
 \echo '========================================='
 \echo 'DEPLOYMENT COMPLETADO EXITOSAMENTE'
 \echo '========================================='
 \echo ''
-\echo 'Estudiantes creados: 15 usuarios reales'
-\echo 'Primer estudiante: 2023-119018 (Vaquita Marina)'
-\echo 'Rol: student'
+\echo '📊 RESUMEN DE DATOS CARGADOS:'
+\echo '  • Estudiantes: 15 usuarios reales'
+\echo '  • Pacientes: 50 pacientes de ejemplo'
+\echo '  • Primer estudiante: 2023-119018 (Vaquita Marina)'
+\echo '  • Rol: student'
 \echo ''
-\echo 'Las contraseñas están hasheadas con Argon2ID'
+\echo '🔐 Las contraseñas están hasheadas con Argon2ID'
+\echo ''
+\echo '📦 MÓDULOS INSTALADOS:'
+\echo '  ✅ Catálogos base'
+\echo '  ✅ Usuarios y autenticación'
+\echo '  ✅ Módulo de Pacientes (3 procedures, 6 functions)'
+\echo '  ✅ Historia Clínica base'
+\echo '  ✅ Auditoría'
 \echo '========================================'

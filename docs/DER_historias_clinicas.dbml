@@ -1,0 +1,536 @@
+// Diagrama Entidad-Relación - Sistema de Historias Clínicas Odontológicas
+// Proyecto: SN-001-2025 - ESIS UNJBG
+// Fecha: 13/10/2025
+// Herramienta: dbdiagram.io
+
+Project historias_clinicas_odontologicas {
+  database_type: 'PostgreSQL'
+  Note: 'Sistema de gestión de historias clínicas odontológicas para estudiantes de la ESIS UNJBG'
+}
+
+// ============================================================
+// MÓDULO: USUARIOS Y AUTENTICACIÓN
+// ============================================================
+
+Table usuario {
+  id_usuario UUID [pk, default: `gen_random_uuid()`]
+  codigo_usuario varchar(100) [unique, not null]
+  nombre varchar(200) [not null]
+  apellido varchar(200) [not null]
+  dni varchar(20) [unique, not null]
+  email varchar(200) [unique, not null]
+  rol varchar(50) [not null, note: 'estudiante, docente, admin']
+  contrasena_hash varchar(255) [not null]
+  activo boolean [default: true]
+  fecha_creacion timestamp [default: `CURRENT_TIMESTAMP`]
+  fecha_modificacion timestamp [default: `CURRENT_TIMESTAMP`]
+  
+  Note: 'Usuarios del sistema: estudiantes, docentes y administradores'
+}
+
+// ============================================================
+// MÓDULO: PACIENTES
+// ============================================================
+
+Table paciente {
+  id_paciente UUID [pk, default: `gen_random_uuid()`]
+  nombre_completo varchar(200) [not null]
+  dni char(8) [unique, not null]
+  fecha_nacimiento date [not null]
+  id_sexo UUID [not null, ref: > catalogo_sexo.id_sexo]
+  telefono varchar(20)
+  email varchar(200)
+  fecha_registro timestamp [default: `CURRENT_TIMESTAMP`]
+  activo boolean [default: true]
+  
+  Note: 'Pacientes registrados en el sistema'
+}
+
+// ============================================================
+// MÓDULO: HISTORIA CLÍNICA PRINCIPAL
+// ============================================================
+
+Table historia_clinica {
+  id_historia UUID [pk, default: `gen_random_uuid()`]
+  id_paciente UUID [unique, ref: > paciente.id_paciente]
+  id_estudiante UUID [not null, ref: > usuario.id_usuario]
+  fecha_elaboracion date [not null, default: `CURRENT_DATE`]
+  ultima_modificacion timestamp [default: `CURRENT_TIMESTAMP`]
+  estado varchar(20) [default: 'en_proceso']
+  
+  Note: 'Historia clínica principal del paciente. Relación 1:1 con paciente'
+}
+
+Table revision_historia {
+  id_revision UUID [pk, default: `gen_random_uuid()`]
+  id_historia UUID [not null, ref: > historia_clinica.id_historia]
+  id_docente UUID [not null, ref: > usuario.id_usuario]
+  fecha date [default: `CURRENT_DATE`]
+  id_estado_revision UUID [not null, ref: > catalogo_estado_revision.id_estado_revision]
+  observaciones text
+  
+  Note: 'Revisiones realizadas por docentes a las historias clínicas'
+}
+
+Table seccion_hc {
+  id_seccion_hc UUID [pk, default: `gen_random_uuid()`]
+  nombre varchar(100) [not null]
+  orden int [not null, unique]
+  
+  Note: 'Secciones principales de la historia clínica'
+}
+
+Table subseccion_hc {
+  id_subseccion_hc UUID [pk, default: `gen_random_uuid()`]
+  id_seccion_hc UUID [ref: > seccion_hc.id_seccion_hc]
+  nombre varchar(100) [not null]
+  orden int [not null]
+  
+  Note: 'Subsecciones de cada sección de historia clínica'
+}
+
+// ============================================================
+// MÓDULO: ANAMNESIS
+// ============================================================
+
+Table filiacion {
+  id_filiacion UUID [pk, default: `gen_random_uuid()`]
+  id_historia UUID [unique, ref: > historia_clinica.id_historia]
+  raza varchar(100)
+  fecha_nacimiento date
+  lugar varchar(150)
+  id_estado_civil UUID [ref: > catalogo_estado_civil.id_estado_civil]
+  nombre_conyuge varchar(200)
+  id_ocupacion UUID [ref: > catalogo_ocupacion.id_ocupacion]
+  lugar_procedencia varchar(150)
+  tiempo_residencia_tacna varchar(50)
+  direccion varchar(200)
+  id_grado_instruccion UUID [ref: > catalogo_grado_instruccion.id_grado_instruccion]
+  ultima_visita_dentista date
+  motivo_visita_dentista varchar(300)
+  ultima_visita_medico date
+  motivo_visita_medico varchar(300)
+  contacto_emergencia varchar(200)
+  telefono_emergencia varchar(20)
+  acompaniante varchar(200)
+  
+  Note: 'Datos de filiación del paciente'
+}
+
+Table motivo_consulta {
+  id_motivo UUID [pk, default: `gen_random_uuid()`]
+  id_historia UUID [ref: > historia_clinica.id_historia]
+  motivo text [not null]
+  fecha_registro timestamp [default: `CURRENT_TIMESTAMP`]
+  
+  Note: 'Motivo principal de consulta del paciente'
+}
+
+Table enfermedad_actual {
+  id_enfermedad_actual UUID [pk, default: `gen_random_uuid()`]
+  id_historia UUID [unique, ref: > historia_clinica.id_historia]
+  sintoma_principal varchar(300)
+  tiempo_enfermedad varchar(100)
+  forma_inicio varchar(200)
+  curso varchar(200)
+  relato text
+  tratamiento_prev text
+  
+  Note: 'Descripción de la enfermedad actual del paciente'
+}
+
+Table antecedente_personal {
+  id_antecedente UUID [pk, default: `gen_random_uuid()`]
+  id_historia UUID [unique, ref: > historia_clinica.id_historia]
+  esta_embarazada boolean
+  mac varchar(200)
+  otros text
+  psicosocial text
+  vacunas text
+  hepatitis_b boolean
+  id_grupo_sanguineo UUID [ref: > catalogo_grupo_sanguineo.id_grupo_sanguineo]
+  fuma boolean
+  cigarrillos_dia int
+  toma_te boolean
+  tazas_te_dia int
+  toma_alcohol boolean
+  frecuencia_alcohol varchar(100)
+  aprieta_dientes boolean
+  momento_aprieta varchar(100)
+  rechina boolean
+  dolor_muscular boolean
+  chupa_dedo boolean
+  muerde_objetos boolean
+  muerde_labios boolean
+  otros_habitos text
+  frecuencia_cepillado int
+  
+  Note: 'Antecedentes personales no patológicos y hábitos del paciente'
+}
+
+Table antecedente_medico {
+  id_ant_patologico UUID [pk, default: `gen_random_uuid()`]
+  id_historia UUID [unique, ref: > historia_clinica.id_historia]
+  salud_general varchar(50)
+  bajo_tratamiento boolean
+  tipo_tratamiento varchar(200)
+  hospitalizaciones text
+  traumatismos text
+  alergias text
+  medicamentos_contraindicados text
+  odontologicos text
+  
+  Note: 'Antecedentes médicos patológicos del paciente'
+}
+
+Table antecedente_familiar {
+  id_ant_fam UUID [pk, default: `gen_random_uuid()`]
+  id_historia UUID [unique, ref: > historia_clinica.id_historia]
+  descripcion text
+  
+  Note: 'Antecedentes familiares de enfermedades'
+}
+
+Table antecedente_cumplimiento {
+  id_ant_cumplimiento UUID [pk, default: `gen_random_uuid()`]
+  id_historia UUID [unique, ref: > historia_clinica.id_historia]
+  dentista_dolor boolean
+  frecuenca_dentista varchar(100)
+  higiene_oral varchar(100)
+  tranquilo boolean
+  nervioso boolean
+  panico boolean
+  desagrado_atencion text
+  
+  Note: 'Antecedentes de cumplimiento y conducta del paciente'
+}
+
+// ============================================================
+// MÓDULO: EXÁMENES
+// ============================================================
+
+Table examen_general {
+  id_examen UUID [pk, default: `gen_random_uuid()`]
+  id_historia UUID [unique, ref: > historia_clinica.id_historia]
+  id_posicion UUID [ref: > catalogo_posicion.id_posicion]
+  actitud boolean
+  deambulacion UUID
+  facies varchar(100)
+  conciencia text
+  constitucion varchar(50)
+  estado_nutritivo varchar(50)
+  temperatura varchar(50)
+  presion_arterial varchar(50)
+  frecuencia_respiratoria varchar(50)
+  pulso varchar(50)
+  peso decimal(5,2)
+  talla decimal(5,2)
+  observaciones text
+  
+  Note: 'Examen físico general del paciente'
+}
+
+Table examen_regional {
+  id_regional UUID [pk, default: `gen_random_uuid()`]
+  id_historia UUID [unique, ref: > historia_clinica.id_historia]
+  // CABEZA
+  id_craneo_forma UUID [ref: > catalogo_medida_regional.id_medida]
+  id_cara_forma UUID [ref: > catalogo_medida_regional.id_medida]
+  id_perfil_ap UUID [ref: > catalogo_medida_regional.id_medida]
+  // OJOS y ANEXOS
+  ojos_cejas_adecuada boolean
+  ojos_implantacion_obs text
+  escleroticas varchar(100)
+  agudeza_visual_conservada boolean
+  iris_color varchar(50)
+  arco_senil varchar(50)
+  // NARIZ
+  nariz_forma varchar(100)
+  nariz_permeables boolean
+  nariz_secreciones boolean
+  senos_paranasales_dolorosos boolean
+  // OIDOS
+  oidos_anomalias_morfologicas boolean
+  oidos_anomalias_obs text
+  oidos_secreciones boolean
+  audicion_conservada boolean
+  // CUELLO
+  cuello_simetrico boolean
+  cuello_simetrico_obs text
+  cuello_movilidad_conservada boolean
+  cuello_movilidad_obs text
+  laringe_alineada boolean
+  laringe_alineada_obs text
+  cuello_otros text
+  
+  Note: 'Examen regional: cabeza, ojos, nariz, oídos y cuello'
+}
+
+Table examen_atm {
+  id_examen_atm UUID [pk, default: `gen_random_uuid()`]
+  id_historia UUID [unique, ref: > historia_clinica.id_historia]
+  id_trayectoria UUID [ref: > catalogo_atm_trayectoria.id_trayectoria]
+  coordinacion_condilar boolean
+  apertura_maxima_mm numeric(5,2)
+  observaciones text
+  musculos_dolor_presente boolean
+  id_grado_dolor UUID [ref: > catalogo_dolor_grado.id_grado]
+  musculos_dolor_zona text
+  
+  Note: 'Examen de articulación temporomandibular (ATM)'
+}
+
+Table atm_movimiento_condicion {
+  id_movimiento_condicion UUID [pk, default: `gen_random_uuid()`]
+  id_examen_atm UUID [not null, ref: > examen_atm.id_examen_atm]
+  id_movimiento UUID [not null, ref: > catalogo_movimiento_mandibular.id_movimiento]
+  dolor boolean
+  ruido boolean
+  salto boolean
+  
+  indexes {
+    (id_examen_atm, id_movimiento) [unique]
+  }
+  
+  Note: 'Condiciones de movimientos mandibulares en el examen ATM'
+}
+
+Table examen_auxiliar {
+  id_examen_auxiliar UUID [pk, default: `gen_random_uuid()`]
+  id_historia UUID [not null, ref: > historia_clinica.id_historia]
+  id_examen UUID [not null, ref: > catalogo_examen_auxiliar.id_examen]
+  detalle varchar(200)
+  fecha_solicitud timestamp [default: `CURRENT_TIMESTAMP`]
+  
+  Note: 'Exámenes auxiliares solicitados (rayos X, análisis, etc.)'
+}
+
+// ============================================================
+// MÓDULO: DIAGNÓSTICOS Y REFERENCIAS
+// ============================================================
+
+Table diagnostico {
+  id_diagnostico UUID [pk, default: `gen_random_uuid()`]
+  id_historia UUID [not null, ref: > historia_clinica.id_historia]
+  descripcion text [not null]
+  definitivo boolean [default: false]
+  fecha date [default: `CURRENT_DATE`]
+  
+  Note: 'Diagnósticos presuntivos y definitivos del paciente'
+}
+
+Table referencia_clinica {
+  id_ref UUID [pk, default: `gen_random_uuid()`]
+  id_historia UUID [not null, ref: > historia_clinica.id_historia]
+  id_clinica UUID [not null, ref: > catalogo_clinica.id_clinica]
+  observaciones text
+  fecha date [default: `CURRENT_DATE`]
+  estado varchar(20) [default: 'pendiente']
+  
+  Note: 'Referencias a clínicas especializadas'
+}
+
+Table evolucion {
+  id_evolucion UUID [pk, default: `gen_random_uuid()`]
+  id_historia UUID [not null, ref: > historia_clinica.id_historia]
+  fecha date [default: `CURRENT_DATE`]
+  actividad text [not null]
+  alumno varchar(200)
+  observaciones text
+  
+  Note: 'Evolución y seguimiento del tratamiento del paciente'
+}
+
+// ============================================================
+// MÓDULO: AUDITORÍA
+// ============================================================
+
+Table auditoria {
+  id_auditoria UUID [pk, default: `gen_random_uuid()`]
+  id_usuario UUID [not null, ref: > usuario.id_usuario]
+  fecha_cambio timestamp [not null, default: `NOW()`]
+  nombre_tabla varchar(50) [not null]
+  id_registro_afectado UUID [not null]
+  accion varchar(10) [not null, note: 'INSERT, UPDATE, DELETE']
+  datos_anteriores jsonb
+  datos_nuevos jsonb
+  ip_address varchar(45)
+  user_agent text
+  
+  Note: 'Registro de auditoría de todas las operaciones del sistema'
+}
+
+// ============================================================
+// MÓDULO: CATÁLOGOS
+// ============================================================
+
+Table catalogo_sexo {
+  id_sexo UUID [pk, default: `gen_random_uuid()`]
+  descripcion varchar(20) [unique, not null]
+  
+  Note: 'Catálogo de sexo biológico'
+}
+
+Table catalogo_estado_civil {
+  id_estado_civil UUID [pk, default: `gen_random_uuid()`]
+  descripcion varchar(50) [unique, not null]
+  
+  Note: 'Catálogo de estados civiles'
+}
+
+Table catalogo_grado_instruccion {
+  id_grado_instruccion UUID [pk, default: `gen_random_uuid()`]
+  descripcion varchar(100) [unique, not null]
+  
+  Note: 'Catálogo de grados de instrucción académica'
+}
+
+Table catalogo_ocupacion {
+  id_ocupacion UUID [pk, default: `gen_random_uuid()`]
+  descripcion varchar(100) [unique, not null]
+  
+  Note: 'Catálogo de ocupaciones'
+}
+
+Table catalogo_enfermedad {
+  id_enfermedad UUID [pk, default: `gen_random_uuid()`]
+  nombre varchar(100) [not null]
+  
+  Note: 'Catálogo de enfermedades'
+}
+
+Table catalogo_habito {
+  id_habito UUID [pk, default: `gen_random_uuid()`]
+  nombre varchar(100) [not null]
+  
+  Note: 'Catálogo de hábitos'
+}
+
+Table catalogo_examen_auxiliar {
+  id_examen UUID [pk, default: `gen_random_uuid()`]
+  descripcion varchar(100) [not null]
+  
+  Note: 'Catálogo de tipos de exámenes auxiliares'
+}
+
+Table catalogo_clinica {
+  id_clinica UUID [pk, default: `gen_random_uuid()`]
+  nombre varchar(100) [not null]
+  
+  Note: 'Catálogo de clínicas especializadas'
+}
+
+Table catalogo_grupo_sanguineo {
+  id_grupo_sanguineo UUID [pk, default: `gen_random_uuid()`]
+  descripcion varchar(10) [not null]
+  
+  Note: 'Catálogo de grupos sanguíneos'
+}
+
+Table catalogo_estado_revision {
+  id_estado_revision UUID [pk, default: `gen_random_uuid()`]
+  nombre varchar(20) [not null]
+  
+  Note: 'Catálogo de estados de revisión de historia clínica'
+}
+
+Table catalogo_posicion {
+  id_posicion UUID [pk, default: `gen_random_uuid()`]
+  posicion varchar(50) [not null]
+  
+  Note: 'Catálogo de posiciones del paciente en examen'
+}
+
+Table catalogo_medida_regional {
+  id_medida UUID [pk, default: `gen_random_uuid()`]
+  tipo_medida varchar(50) [not null]
+  descripcion varchar(50) [not null]
+  
+  Note: 'Catálogo de medidas regionales (cabeza y cuello)'
+}
+
+Table catalogo_atm_trayectoria {
+  id_trayectoria UUID [pk, default: `gen_random_uuid()`]
+  descripcion varchar(50) [not null]
+  
+  Note: 'Catálogo de trayectorias de ATM'
+}
+
+Table catalogo_dolor_grado {
+  id_grado UUID [pk, default: `gen_random_uuid()`]
+  descripcion varchar(50) [not null]
+  
+  Note: 'Catálogo de grados de dolor'
+}
+
+Table catalogo_movimiento_mandibular {
+  id_movimiento UUID [pk, default: `gen_random_uuid()`]
+  descripcion varchar(50) [not null]
+  
+  Note: 'Catálogo de movimientos mandibulares'
+}
+
+// ============================================================
+// GRUPOS DE TABLAS PARA VISUALIZACIÓN
+// ============================================================
+
+TableGroup autenticacion {
+  usuario
+}
+
+TableGroup pacientes_base {
+  paciente
+}
+
+TableGroup historia_clinica_core {
+  historia_clinica
+  revision_historia
+  seccion_hc
+  subseccion_hc
+}
+
+TableGroup anamnesis {
+  filiacion
+  motivo_consulta
+  enfermedad_actual
+  antecedente_personal
+  antecedente_medico
+  antecedente_familiar
+  antecedente_cumplimiento
+}
+
+TableGroup examenes {
+  examen_general
+  examen_regional
+  examen_atm
+  atm_movimiento_condicion
+  examen_auxiliar
+}
+
+TableGroup diagnosticos {
+  diagnostico
+  referencia_clinica
+  evolucion
+}
+
+TableGroup sistema {
+  auditoria
+}
+
+TableGroup catalogos {
+  catalogo_sexo
+  catalogo_estado_civil
+  catalogo_grado_instruccion
+  catalogo_ocupacion
+  catalogo_enfermedad
+  catalogo_habito
+  catalogo_examen_auxiliar
+  catalogo_clinica
+  catalogo_grupo_sanguineo
+  catalogo_estado_revision
+  catalogo_posicion
+  catalogo_medida_regional
+  catalogo_atm_trayectoria
+  catalogo_dolor_grado
+  catalogo_movimiento_mandibular
+}
