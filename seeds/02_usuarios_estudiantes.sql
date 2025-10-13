@@ -13,7 +13,7 @@
 -- Vaquita Marina
 INSERT INTO usuario (
     id_usuario,
-    usuario_login,
+    codigo_usuario,
     nombre,
     apellido,
     dni,
@@ -31,12 +31,12 @@ INSERT INTO usuario (
     'estudiante',
     '$argon2id$v=19$m=65536,t=3,p=4$3LpAgbt2Q9nZCzKdMj/WIQ$J3Dq4u3K7/4+NrCduPhE1omYlROTFXrlNIjUTznZVkQ',
     TRUE
-);
+); 
 
 -- Cristhiany Lesly Conde Escobar
 INSERT INTO usuario (
     id_usuario,
-    usuario_login,
+    codigo_usuario,
     nombre,
     apellido,
     dni,
@@ -59,7 +59,7 @@ INSERT INTO usuario (
 -- Alicia Danitza Vera Cohaila
 INSERT INTO usuario (
     id_usuario,
-    usuario_login,
+    codigo_usuario,
     nombre,
     apellido,
     dni,
@@ -82,7 +82,7 @@ INSERT INTO usuario (
 -- Ariana Ninel Condori Vilcape
 INSERT INTO usuario (
     id_usuario,
-    usuario_login,
+    codigo_usuario,
     nombre,
     apellido,
     dni,
@@ -105,7 +105,7 @@ INSERT INTO usuario (
 -- Yusbel Clever Mayta Chipana
 INSERT INTO usuario (
     id_usuario,
-    usuario_login,
+    codigo_usuario,
     nombre,
     apellido,
     dni,
@@ -128,7 +128,7 @@ INSERT INTO usuario (
 -- Nicolett Agnes Cahuana Tacuri
 INSERT INTO usuario (
     id_usuario,
-    usuario_login,
+    codigo_usuario,
     nombre,
     apellido,
     dni,
@@ -151,7 +151,7 @@ INSERT INTO usuario (
 -- Rodrigo Fernando Laura Guadalupe
 INSERT INTO usuario (
     id_usuario,
-    usuario_login,
+    codigo_usuario,
     nombre,
     apellido,
     dni,
@@ -174,7 +174,7 @@ INSERT INTO usuario (
 -- Mariela Castro Quispe
 INSERT INTO usuario (
     id_usuario,
-    usuario_login,
+    codigo_usuario,
     nombre,
     apellido,
     dni,
@@ -197,7 +197,7 @@ INSERT INTO usuario (
 -- Joselyn Cori Ticona
 INSERT INTO usuario (
     id_usuario,
-    usuario_login,
+    codigo_usuario,
     nombre,
     apellido,
     dni,
@@ -220,7 +220,7 @@ INSERT INTO usuario (
 -- Nilo Javier Sinticala Mamani
 INSERT INTO usuario (
     id_usuario,
-    usuario_login,
+    codigo_usuario,
     nombre,
     apellido,
     dni,
@@ -243,7 +243,7 @@ INSERT INTO usuario (
 -- Kendra Saraí Vilca Cabrera
 INSERT INTO usuario (
     id_usuario,
-    usuario_login,
+    codigo_usuario,
     nombre,
     apellido,
     dni,
@@ -266,7 +266,7 @@ INSERT INTO usuario (
 -- Henry Romario Ortega Luque
 INSERT INTO usuario (
     id_usuario,
-    usuario_login,
+    codigo_usuario,
     nombre,
     apellido,
     dni,
@@ -289,7 +289,7 @@ INSERT INTO usuario (
 -- Mirian Gabriela Mamani Mamani
 INSERT INTO usuario (
     id_usuario,
-    usuario_login,
+    codigo_usuario,
     nombre,
     apellido,
     dni,
@@ -312,7 +312,7 @@ INSERT INTO usuario (
 -- Samuel Rojas Cutipa
 INSERT INTO usuario (
     id_usuario,
-    usuario_login,
+    codigo_usuario,
     nombre,
     apellido,
     dni,
@@ -335,7 +335,7 @@ INSERT INTO usuario (
 -- Veronica Gianella Garcia Montufar
 INSERT INTO usuario (
     id_usuario,
-    usuario_login,
+    codigo_usuario,
     nombre,
     apellido,
     dni,

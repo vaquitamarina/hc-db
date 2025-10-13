@@ -64,7 +64,7 @@ SELECT 'catalogo_estado_revision', COUNT(*) FROM catalogo_estado_revision;
 
 \echo ''
 \echo '7. Verificando usuarios creados...'
-SELECT usuario_login, nombre, apellido, rol 
+SELECT codigo_usuario, nombre, apellido, rol 
 FROM usuario 
 WHERE activo = TRUE;
 

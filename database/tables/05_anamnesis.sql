@@ -26,15 +26,7 @@ CREATE TABLE filiacion (
     motivo_visita_medico VARCHAR(300),
     contacto_emergencia VARCHAR(200),
     telefono_emergencia VARCHAR(20),
-    acompaniante VARCHAR(200),
-    CONSTRAINT fk_filiacion_catalogo_estado_civil FOREIGN KEY (id_estado_civil) 
-        REFERENCES catalogo_estado_civil (id_estado_civil),
-    CONSTRAINT fk_filiacion_catalogo_ocupacion FOREIGN KEY (id_ocupacion) 
-        REFERENCES catalogo_ocupacion (id_ocupacion),
-    CONSTRAINT fk_filiacion_catalogo_grado_instruccion FOREIGN KEY (id_grado_instruccion) 
-        REFERENCES catalogo_grado_instruccion (id_grado_instruccion),
-    CONSTRAINT fk_filiacion_historia_clinica FOREIGN KEY (id_historia) 
-        REFERENCES historia_clinica (id_historia)
+    acompaniante VARCHAR(200)
 );
 
 -- Motivo de consulta
@@ -42,9 +34,7 @@ CREATE TABLE motivo_consulta (
     id_motivo UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     id_historia UUID,
     motivo TEXT NOT NULL,
-    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_motivo_consulta_historia_clinica FOREIGN KEY (id_historia) 
-        REFERENCES historia_clinica (id_historia)
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Enfermedad actual
@@ -56,9 +46,7 @@ CREATE TABLE enfermedad_actual (
     forma_inicio VARCHAR(200),
     curso VARCHAR(200),
     relato TEXT,
-    tratamiento_prev TEXT,
-    CONSTRAINT fk_enfermedad_actual_historia_clinica FOREIGN KEY (id_historia) 
-        REFERENCES historia_clinica (id_historia)
+    tratamiento_prev TEXT
 );
 
 -- Antecedentes personales
@@ -86,11 +74,7 @@ CREATE TABLE antecedente_personal (
     muerde_objetos BOOLEAN,
     muerde_labios BOOLEAN,
     otros_habitos TEXT,
-    frecuencia_cepillado INT,
-    CONSTRAINT fk_antecedente_personal_historia_clinica FOREIGN KEY (id_historia) 
-        REFERENCES historia_clinica (id_historia),
-    CONSTRAINT fk_antecedente_personal_catalogo_grupo_sanguineo FOREIGN KEY (id_grupo_sanguineo) 
-        REFERENCES catalogo_grupo_sanguineo (id_grupo_sanguineo)
+    frecuencia_cepillado INT
 );
 
 -- Antecedentes médicos
@@ -104,18 +88,14 @@ CREATE TABLE antecedente_medico (
     traumatismos TEXT,
     alergias TEXT,
     medicamentos_contraindicados TEXT,
-    odontologicos TEXT,
-    CONSTRAINT fk_antecedente_medico_historia_clinica FOREIGN KEY (id_historia) 
-        REFERENCES historia_clinica (id_historia)
+    odontologicos TEXT
 );
 
 -- Antecedentes familiares
 CREATE TABLE antecedente_familiar (
     id_ant_fam UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     id_historia UUID UNIQUE,
-    descripcion TEXT,
-    CONSTRAINT fk_antecedente_familiar_historia_clinica FOREIGN KEY (id_historia) 
-        REFERENCES historia_clinica (id_historia)
+    descripcion TEXT
 );
 
 -- Antecedentes de cumplimiento
@@ -128,15 +108,5 @@ CREATE TABLE antecedente_cumplimiento (
     tranquilo BOOLEAN,
     nervioso BOOLEAN,
     panico BOOLEAN,
-    desagrado_atencion TEXT,
-    CONSTRAINT fk_antecedente_cumplimiento_historia_clinica FOREIGN KEY (id_historia) 
-        REFERENCES historia_clinica (id_historia)
+    desagrado_atencion TEXT
 );
-
-COMMENT ON TABLE filiacion IS 'Datos demográficos y sociales del paciente';
-COMMENT ON TABLE motivo_consulta IS 'Motivo principal de la consulta';
-COMMENT ON TABLE enfermedad_actual IS 'Detalles de la enfermedad actual del paciente';
-COMMENT ON TABLE antecedente_personal IS 'Antecedentes personales y hábitos del paciente';
-COMMENT ON TABLE antecedente_medico IS 'Antecedentes médicos y patológicos';
-COMMENT ON TABLE antecedente_familiar IS 'Antecedentes familiares relevantes';
-COMMENT ON TABLE antecedente_cumplimiento IS 'Antecedentes de cumplimiento odontológico';

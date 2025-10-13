@@ -7,17 +7,17 @@ CREATE OR REPLACE FUNCTION s_usuario(
     p_id_usuario UUID
 )
 RETURNS TABLE (
-    id_usuario    UUID,
-    usuario_login VARCHAR,
-    nombre        VARCHAR,
-    apellido      VARCHAR,
-    dni           VARCHAR,
-    email         VARCHAR
+    id_usuario     UUID,
+    codigo_usuario VARCHAR,
+    nombre         VARCHAR,
+    apellido       VARCHAR,
+    dni            VARCHAR,
+    email          VARCHAR
 ) AS $$
 BEGIN
     RETURN QUERY
     SELECT u.id_usuario,
-           u.usuario_login,
+           u.codigo_usuario,
            u.nombre,
            u.apellido,
            u.dni,

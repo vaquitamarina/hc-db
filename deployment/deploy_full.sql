@@ -45,16 +45,21 @@ SET client_min_messages TO WARNING;
 \i ../database/functions/usuarios/s_usuario.sql
 \i ../database/functions/usuarios/s_usuario_login.sql
 \i ../database/functions/historia_clinica/s_filiacion.sql
+\i ../database/functions/historia_clinica/i_historia_clinica.sql
 \i ../database/functions/estudiantes/s_paciente_adulto.sql
 
 \echo '10. Creando procedimientos...'
 \i ../database/procedures/usuarios/i_usuario.sql
-\i ../database/procedures/historia_clinica/i_historia_clinica.sql
 \i ../database/procedures/historia_clinica/i_filiacion.sql
 \i ../database/procedures/historia_clinica/i_revision_historia.sql
 \i ../database/procedures/auditoria/i_auditoria.sql
 
-\echo '11. Insertando datos iniciales (seeds)...'
+\echo '11. Aplicando constraints...'
+\i ../database/constraints/foreign_keys.sql
+\i ../database/constraints/check_constraints.sql
+\i ../database/constraints/business_rules.sql
+
+\echo '12. Insertando datos iniciales (seeds)...'
 \i ../seeds/01_catalogos_base.sql
 \i ../seeds/02_usuarios_estudiantes.sql
 
