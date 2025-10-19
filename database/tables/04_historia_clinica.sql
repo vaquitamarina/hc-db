@@ -1,9 +1,6 @@
 ------------------------------------------------------------------
 -- ARCHIVO: 04_historia_clinica.sql
 -- DESCRIPCION: Tablas principales de historia clínica y revisión
--- PROYECTO: SN-001-2025 - Sistema de Historias Clínicas
--- AUTOR: Equipo BD II - ESIS UNJBG
--- FECHA: 12/10/2025
 ------------------------------------------------------------------
 
 -- Tabla principal de historia clínica
@@ -27,16 +24,4 @@ CREATE TABLE revision_historia (
 );
 
 -- Tabla de secciones de historia clínica
-CREATE TABLE seccion_hc (
-    id_seccion_hc UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    nombre VARCHAR(100) NOT NULL,
-    orden INT NOT NULL UNIQUE
-);
 
--- Tabla de subsecciones de historia clínica
-CREATE TABLE subseccion_hc (
-    id_subseccion_hc UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    id_seccion_hc UUID,
-    nombre VARCHAR(100) NOT NULL,
-    orden INT NOT NULL
-);

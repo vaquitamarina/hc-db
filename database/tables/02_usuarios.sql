@@ -1,9 +1,6 @@
 ------------------------------------------------------------------
 -- ARCHIVO: 02_usuarios.sql
 -- DESCRIPCION: Tabla de usuarios del sistema
--- PROYECTO: SN-001-2025 - Sistema de Historias Clínicas
--- AUTOR: Equipo BD II - ESIS UNJBG
--- FECHA: 12/10/2025
 ------------------------------------------------------------------
 
 CREATE TABLE usuario (

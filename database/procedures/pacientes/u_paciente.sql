@@ -1,9 +1,6 @@
 ------------------------------------------------------------------
 -- PROCEDURE: u_paciente
 -- DESCRIPCION: Actualizar datos de un paciente existente
--- PROYECTO: SN-001-2025 - Sistema de Historias Clínicas
--- AUTOR: Equipo BD II - ESIS UNJBG
--- FECHA: 13/10/2025
 ------------------------------------------------------------------
 
 CREATE OR REPLACE PROCEDURE u_paciente(

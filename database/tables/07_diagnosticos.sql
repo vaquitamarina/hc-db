@@ -1,9 +1,6 @@
 ------------------------------------------------------------------
 -- ARCHIVO: 07_diagnosticos.sql
 -- DESCRIPCION: Tablas de diagnósticos, referencias y evolución
--- PROYECTO: SN-001-2025 - Sistema de Historias Clínicas
--- AUTOR: Equipo BD II - ESIS UNJBG
--- FECHA: 12/10/2025
 ------------------------------------------------------------------
 
 -- Diagnósticos del paciente

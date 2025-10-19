@@ -1,9 +1,6 @@
 ------------------------------------------------------------------
 -- ARCHIVO: deploy_full.sql
 -- DESCRIPCION: Script maestro para deployment completo del sistema
--- PROYECTO: SN-001-2025 - Sistema de Historias Clínicas
--- AUTOR: Equipo BD II - ESIS UNJBG
--- FECHA: 12/10/2025
 -- USO: psql -U postgres -d nombre_bd -f deploy_full.sql
 ------------------------------------------------------------------
 
@@ -48,11 +45,33 @@ SET client_min_messages TO WARNING;
 \i ../database/functions/historia_clinica/i_historia_clinica.sql
 \i ../database/functions/estudiantes/s_paciente_adulto.sql
 
-\echo '10. Creando procedimientos...'
+\echo '10. Creando procedimientos de usuarios y auditoría...'
 \i ../database/procedures/usuarios/i_usuario.sql
-\i ../database/procedures/historia_clinica/i_filiacion.sql
-\i ../database/procedures/historia_clinica/i_revision_historia.sql
 \i ../database/procedures/auditoria/i_auditoria.sql
+
+\echo '10a. Creando procedimientos de historia clínica - Anamnesis...'
+\i ../database/procedures/historia_clinica/i_filiacion.sql
+\i ../database/procedures/historia_clinica/i_motivo_consulta.sql
+\i ../database/procedures/historia_clinica/i_enfermedad_actual.sql
+
+\echo '10b. Creando procedimientos de historia clínica - Antecedentes...'
+\i ../database/procedures/historia_clinica/i_antecedente_personal.sql
+\i ../database/procedures/historia_clinica/i_antecedente_medico.sql
+\i ../database/procedures/historia_clinica/i_antecedente_familiar.sql
+\i ../database/procedures/historia_clinica/i_antecedente_cumplimiento.sql
+
+\echo '10c. Creando procedimientos de historia clínica - Exámenes...'
+\i ../database/procedures/historia_clinica/i_examen_general.sql
+\i ../database/procedures/historia_clinica/i_examen_regional.sql
+\i ../database/procedures/historia_clinica/i_examen_atm.sql
+\i ../database/procedures/historia_clinica/i_atm_movimiento.sql
+\i ../database/procedures/historia_clinica/i_examen_auxiliar.sql
+
+\echo '10d. Creando procedimientos de historia clínica - Diagnóstico y Evolución...'
+\i ../database/procedures/historia_clinica/i_diagnostico.sql
+\i ../database/procedures/historia_clinica/i_referencia_clinica.sql
+\i ../database/procedures/historia_clinica/i_evolucion.sql
+\i ../database/procedures/historia_clinica/i_revision_historia.sql
 
 \echo '11. Desplegando módulo de Pacientes...'
 \i ../database/procedures/pacientes/i_paciente.sql
@@ -70,7 +89,14 @@ SET client_min_messages TO WARNING;
 \i ../database/constraints/check_constraints.sql
 \i ../database/constraints/business_rules.sql
 
-\echo '13. Insertando datos iniciales (seeds)...'
+\echo '13. Creando triggers y funciones auxiliares...'
+\i ../database/triggers/fn_auditoria_automatica.sql
+\i ../database/triggers/tr_actualizar_timestamp.sql
+\i ../database/triggers/tr_validaciones_negocio.sql
+\i ../database/triggers/tr_prevenir_eliminacion.sql
+\i ../database/triggers/tr_auditoria_tablas.sql
+
+\echo '14. Insertando datos iniciales (seeds)...'
 \i ../seeds/01_catalogos_base.sql
 \i ../seeds/02_usuarios_estudiantes.sql
 \i ../seeds/03_pacientes_desarrollo.sql
@@ -92,6 +118,16 @@ SET client_min_messages TO WARNING;
 \echo '  ✅ Catálogos base'
 \echo '  ✅ Usuarios y autenticación'
 \echo '  ✅ Módulo de Pacientes (3 procedures, 6 functions)'
-\echo '  ✅ Historia Clínica base'
-\echo '  ✅ Auditoría'
+\echo '  ✅ Historia Clínica (15 procedures para inserción)'
+\echo '     • Anamnesis: filiación, motivo consulta, enfermedad actual'
+\echo '     • Antecedentes: personal, médico, familiar, cumplimiento'
+\echo '     • Exámenes: general, regional, ATM, auxiliares'
+\echo '     • Diagnóstico: diagnóstico, referencias, evolución, revisión'
+\echo '  ✅ Auditoría automática (5 triggers)'
+\echo '  ✅ Validaciones de negocio'
+\echo '  ✅ Protección contra eliminación'
+\echo ''
+\echo '📝 TOTAL DE PROCEDIMIENTOS: 21'
+\echo '🔍 TOTAL DE FUNCIONES: 11'
+\echo '⚡ TOTAL DE TRIGGERS: 5'
 \echo '========================================'

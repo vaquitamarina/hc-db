@@ -1,7 +1,5 @@
 ------------------------------------------------------------------
 -- DESCRIPCION: Funcion que obtiene los pacientes adultos asignados a un estudiante
--- Usado por: Sistema de Historias Clinicas - Módulo de Estudiantes
--- SN-001-2025 Proyecto Historias Clinicas - Módulo de Estudiantes, Autor: Equipo BD II - 12/10/2025
 ------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION s_paciente_adulto (p_id_estudiante uuid)
     RETURNS TABLE (

@@ -1,9 +1,6 @@
 ------------------------------------------------------------------
 -- PROCEDURE: i_paciente
 -- DESCRIPCION: Registrar un nuevo paciente en el sistema
--- PROYECTO: SN-001-2025 - Sistema de Historias Clínicas
--- AUTOR: Equipo BD II - ESIS UNJBG
--- FECHA: 13/10/2025
 ------------------------------------------------------------------
 
 CREATE OR REPLACE PROCEDURE i_paciente(

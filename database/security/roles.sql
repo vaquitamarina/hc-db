@@ -1,9 +1,6 @@
 ------------------------------------------------------------------
 -- ARCHIVO: roles.sql
 -- DESCRIPCION: Configuración de roles y permisos de la base de datos
--- PROYECTO: SN-001-2025 - Sistema de Historias Clínicas
--- AUTOR: Equipo BD II - ESIS UNJBG
--- FECHA: 13/10/2025
 ------------------------------------------------------------------
 
 /*

@@ -1,9 +1,6 @@
 ------------------------------------------------------------------
 -- ARCHIVO: business_rules.sql
 -- DESCRIPCION: Reglas de negocio complejas del sistema
--- PROYECTO: SN-001-2025 - Sistema de Historias Clínicas
--- AUTOR: Equipo BD II - ESIS UNJBG
--- FECHA: 13/10/2025
 ------------------------------------------------------------------
 
 -- Reglas de validación de fechas

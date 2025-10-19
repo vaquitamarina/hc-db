@@ -1,7 +1,5 @@
 ------------------------------------------------------------------
 -- DESCRIPCION: Procedimiento que registra eventos de auditoria en el sistema
--- Usado por: Sistema de Historias Clinicas - Módulo de Auditoria
--- SN-001-2025 Proyecto Historias Clinicas - Módulo de Auditoria, Autor: Equipo BD II - 12/10/2025
 ------------------------------------------------------------------
 CREATE OR REPLACE PROCEDURE i_auditoria(
     IN p_id_usuario UUID,

@@ -1,7 +1,5 @@
 ------------------------------------------------------------------
 -- DESCRIPCION: Procedimiento que registra una revision de historia clinica por un docente
--- Usado por: Sistema de Historias Clinicas - Módulo de Revision
--- SN-001-2025 Proyecto Historias Clinicas - Módulo de Historia Clinica, Autor: Equipo BD II - 12/10/2025
 ------------------------------------------------------------------
 CREATE OR REPLACE PROCEDURE i_revision_historia(
     IN p_id_historia UUID,

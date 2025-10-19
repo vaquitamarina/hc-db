@@ -1,9 +1,6 @@
 ------------------------------------------------------------------
 -- ARCHIVO: 08_auditoria.sql
 -- DESCRIPCION: Tabla de auditoría del sistema
--- PROYECTO: SN-001-2025 - Sistema de Historias Clínicas
--- AUTOR: Equipo BD II - ESIS UNJBG
--- FECHA: 12/10/2025
 ------------------------------------------------------------------
 
 CREATE TABLE auditoria (

@@ -1,9 +1,6 @@
 ------------------------------------------------------------------
 -- SEEDS: Pacientes de Desarrollo
 -- DESCRIPCION: 50 pacientes de ejemplo para desarrollo y testing
--- PROYECTO: SN-001-2025 - Sistema de Historias Clínicas
--- AUTOR: Equipo BD II - ESIS UNJBG
--- FECHA: 13/10/2025
 ------------------------------------------------------------------
 
 -- Pacientes Masculinos (25)

@@ -1,9 +1,6 @@
 ------------------------------------------------------------------
 -- ARCHIVO: foreign_keys.sql
 -- DESCRIPCION: Foreign Keys (relaciones) del sistema
--- PROYECTO: SN-001-2025 - Sistema de Historias Clínicas
--- AUTOR: Equipo BD II - ESIS UNJBG
--- FECHA: 13/10/2025
 ------------------------------------------------------------------
 
 -- Foreign Keys de tabla paciente
@@ -26,10 +23,6 @@ ALTER TABLE revision_historia ADD CONSTRAINT fk_revision_historia_usuario
 
 ALTER TABLE revision_historia ADD CONSTRAINT fk_revision_historia_catalogo_estado_revision 
     FOREIGN KEY (id_estado_revision) REFERENCES catalogo_estado_revision (id_estado_revision);
-
--- Foreign Keys de tabla subseccion_hc
-ALTER TABLE subseccion_hc ADD CONSTRAINT fk_subseccion_hc_seccion_hc 
-    FOREIGN KEY (id_seccion_hc) REFERENCES seccion_hc(id_seccion_hc);
 
 -- Foreign Keys de tabla filiacion
 ALTER TABLE filiacion ADD CONSTRAINT fk_filiacion_catalogo_estado_civil 

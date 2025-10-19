@@ -1,7 +1,5 @@
 ------------------------------------------------------------------
 -- DESCRIPCION: Procedimiento que registra datos de filiacion de una historia clinica
--- Usado por: Sistema de Historias Clinicas - Módulo de Historia Clinica
--- SN-001-2025 Proyecto Historias Clinicas - Módulo de Historia Clinica, Autor: Equipo BD II - 12/10/2025
 ------------------------------------------------------------------
 CREATE OR REPLACE PROCEDURE i_filiacion(
     IN p_id_historia UUID,

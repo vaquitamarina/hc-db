@@ -1,9 +1,6 @@
 ------------------------------------------------------------------
 -- FUNCTION: s_paciente_by_dni
 -- DESCRIPCION: Buscar un paciente por su DNI
--- PROYECTO: SN-001-2025 - Sistema de Historias Clínicas
--- AUTOR: Equipo BD II - ESIS UNJBG
--- FECHA: 13/10/2025
 ------------------------------------------------------------------
 
 CREATE OR REPLACE FUNCTION s_paciente_by_dni(

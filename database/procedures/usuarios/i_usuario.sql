@@ -1,7 +1,5 @@
 ------------------------------------------------------------------
 -- DESCRIPCION: Procedimiento que registra un nuevo usuario en el sistema
--- Usado por: Sistema de Historias Clinicas - Módulo de Usuarios
--- SN-001-2025 Proyecto Historias Clinicas - Módulo de Usuarios, Autor: Equipo BD II - 12/10/2025
 ------------------------------------------------------------------
 CREATE OR REPLACE PROCEDURE i_usuario(
     IN p_codigo_usuario VARCHAR(50),

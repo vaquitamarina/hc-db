@@ -1,7 +1,5 @@
 ------------------------------------------------------------------
 -- DESCRIPCION: Funcion que obtiene los datos de filiacion de una historia clinica
--- Usado por: Sistema de Historias Clinicas - Módulo de Historia Clinica
--- SN-001-2025 Proyecto Historias Clinicas - Módulo de Historia Clinica, Autor: Equipo BD II - 12/10/2025
 ------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION s_filiacion (p_id_historia uuid)
     RETURNS TABLE (

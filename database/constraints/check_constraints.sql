@@ -1,9 +1,6 @@
 ------------------------------------------------------------------
 -- ARCHIVO: check_constraints.sql
 -- DESCRIPCION: Constraints de validación (CHECK) del sistema
--- PROYECTO: SN-001-2025 - Sistema de Historias Clínicas
--- AUTOR: Equipo BD II - ESIS UNJBG
--- FECHA: 13/10/2025
 ------------------------------------------------------------------
 
 -- Validaciones para tabla usuario

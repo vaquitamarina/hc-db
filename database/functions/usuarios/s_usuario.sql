@@ -1,7 +1,5 @@
 ------------------------------------------------------------------
 -- DESCRIPCION: Funcion que obtiene los datos de un usuario por su ID
--- Usado por: Sistema de Historias Clinicas - Módulo de Usuarios
--- SN-001-2025 Proyecto Historias Clinicas - Módulo de Usuarios, Autor: Equipo BD II - 12/10/2025
 ------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION s_usuario(
     p_id_usuario UUID

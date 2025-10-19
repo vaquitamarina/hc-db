@@ -1,9 +1,6 @@
 ------------------------------------------------------------------
 -- PROCEDURE: d_paciente
 -- DESCRIPCION: Desactivar (borrado lógico) de un paciente
--- PROYECTO: SN-001-2025 - Sistema de Historias Clínicas
--- AUTOR: Equipo BD II - ESIS UNJBG
--- FECHA: 13/10/2025
 ------------------------------------------------------------------
 
 CREATE OR REPLACE PROCEDURE d_paciente(

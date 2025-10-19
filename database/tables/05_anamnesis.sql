@@ -1,9 +1,6 @@
 ------------------------------------------------------------------
 -- ARCHIVO: 05_anamnesis.sql
 -- DESCRIPCION: Tablas de anamnesis (filiación, motivo consulta, enfermedad actual, antecedentes)
--- PROYECTO: SN-001-2025 - Sistema de Historias Clínicas
--- AUTOR: Equipo BD II - ESIS UNJBG
--- FECHA: 12/10/2025
 ------------------------------------------------------------------
 
 -- Datos de filiación del paciente

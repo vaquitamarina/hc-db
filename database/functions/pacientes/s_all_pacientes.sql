@@ -1,9 +1,6 @@
 ------------------------------------------------------------------
 -- FUNCTION: s_all_pacientes
 -- DESCRIPCION: Listar todos los pacientes con filtros opcionales
--- PROYECTO: SN-001-2025 - Sistema de Historias Clínicas
--- AUTOR: Equipo BD II - ESIS UNJBG
--- FECHA: 13/10/2025
 ------------------------------------------------------------------
 
 CREATE OR REPLACE FUNCTION s_all_pacientes(

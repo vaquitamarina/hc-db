@@ -1,9 +1,6 @@
 ------------------------------------------------------------------
 -- ARCHIVO: 02_usuarios_estudiantes.sql
 -- DESCRIPCION: Usuarios estudiantes reales del sistema
--- PROYECTO: SN-001-2025 - Sistema de Historias Clínicas
--- AUTOR: Equipo BD II - ESIS UNJBG
--- FECHA: 12/10/2025
 -- NOTA: Datos reales de estudiantes con contraseñas ya hasheadas
 ------------------------------------------------------------------
 

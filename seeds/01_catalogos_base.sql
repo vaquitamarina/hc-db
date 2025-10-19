@@ -1,9 +1,6 @@
 ------------------------------------------------------------------
 -- ARCHIVO: 01_catalogos_base.sql
 -- DESCRIPCION: Datos iniciales de catálogos del sistema
--- PROYECTO: SN-001-2025 - Sistema de Historias Clínicas
--- AUTOR: Equipo BD II - ESIS UNJBG
--- FECHA: 12/10/2025
 ------------------------------------------------------------------
 
 -- Catálogo de Sexo
