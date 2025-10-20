@@ -1,7 +1,7 @@
 ------------------------------------------------------------------
 -- DESCRIPCION: Funcion que obtiene los datos de filiacion de una historia clinica
 ------------------------------------------------------------------
-CREATE OR REPLACE FUNCTION s_filiacion (p_id_historia uuid)
+CREATE OR REPLACE FUNCTION fn_obtener_filiacion (p_id_historia uuid)
     RETURNS TABLE (
         id_filiacion uuid,
         id_historia uuid,
