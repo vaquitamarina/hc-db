@@ -41,9 +41,9 @@ Este directorio contiene todos los procedimientos almacenados para registrar inf
 
 ### Sistema
 
-| Procedimiento | Descripción | Archivo |
+| Función/Procedimiento | Descripción | Archivo |
 |--------------|-------------|---------|
-| `i_historia_clinica` | Crea una nueva historia clínica (función) | `i_historia_clinica.sql` |
+| `fn_crear_historia_clinica` | Crea una nueva historia clínica (función) | `fn_crear_historia_clinica.sql` |
 | `i_revision_historia` | Registra revisión docente | `i_revision_historia.sql` |
 
 ---
@@ -192,7 +192,7 @@ CALL i_evolucion(
 
 ```
 1. Crear Historia Clínica
-   └─> CALL i_historia_clinica(p_id_estudiante)
+   └─> SELECT fn_crear_historia_clinica(p_id_estudiante)
        └─> Retorna: id_historia (UUID)
 
 2. Registrar Anamnesis

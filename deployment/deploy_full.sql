@@ -38,12 +38,12 @@ SET client_min_messages TO WARNING;
 \echo '8. Creando tabla de auditoría...'
 \i ../database/tables/08_auditoria.sql
 
-\echo '9. Creando funciones...'
-\i ../database/functions/usuarios/s_usuario.sql
-\i ../database/functions/usuarios/s_usuario_login.sql
-\i ../database/functions/historia_clinica/s_filiacion.sql
-\i ../database/functions/historia_clinica/i_historia_clinica.sql
-\i ../database/functions/estudiantes/s_paciente_adulto.sql
+\echo '9. Creando funciones de consulta...'
+\i ../database/functions/usuarios/fn_obtener_usuario.sql
+\i ../database/functions/usuarios/fn_obtener_usuario_login.sql
+\i ../database/functions/historia_clinica/fn_obtener_filiacion.sql
+\i ../database/functions/historia_clinica/fn_crear_historia_clinica.sql
+\i ../database/functions/estudiantes/fn_obtener_pacientes_adultos.sql
 
 \echo '10. Creando procedimientos de usuarios y auditoría...'
 \i ../database/procedures/usuarios/i_usuario.sql
@@ -77,12 +77,12 @@ SET client_min_messages TO WARNING;
 \i ../database/procedures/pacientes/i_paciente.sql
 \i ../database/procedures/pacientes/u_paciente.sql
 \i ../database/procedures/pacientes/d_paciente.sql
-\i ../database/functions/pacientes/s_paciente_by_id.sql
-\i ../database/functions/pacientes/s_paciente_by_dni.sql
-\i ../database/functions/pacientes/s_all_pacientes.sql
+\i ../database/functions/pacientes/fn_obtener_paciente_por_id.sql
+\i ../database/functions/pacientes/fn_buscar_paciente_por_dni.sql
+\i ../database/functions/pacientes/fn_listar_pacientes.sql
 \i ../database/functions/pacientes/s_pacientes_count.sql
 \i ../database/functions/pacientes/s_pacientes_sin_historia_clinica.sql
-\i ../database/functions/pacientes/s_paciente_existe.sql
+\i ../database/functions/pacientes/fn_verificar_paciente_existe.sql
 
 \echo '12. Aplicando constraints...'
 \i ../database/constraints/foreign_keys.sql

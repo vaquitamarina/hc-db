@@ -1,7 +1,7 @@
 ------------------------------------------------------------------
 -- DESCRIPCION: Funcion que obtiene los pacientes adultos asignados a un estudiante
 ------------------------------------------------------------------
-CREATE OR REPLACE FUNCTION s_paciente_adulto (p_id_estudiante uuid)
+CREATE OR REPLACE FUNCTION fn_obtener_pacientes_adultos (p_id_estudiante uuid)
     RETURNS TABLE (
         id_paciente uuid,
         id_historia uuid,

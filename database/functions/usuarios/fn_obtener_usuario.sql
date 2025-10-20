@@ -1,7 +1,7 @@
 ------------------------------------------------------------------
 -- DESCRIPCION: Funcion que obtiene los datos de un usuario por su ID
 ------------------------------------------------------------------
-CREATE OR REPLACE FUNCTION s_usuario(
+CREATE OR REPLACE FUNCTION fn_obtener_usuario(
     p_id_usuario UUID
 )
 RETURNS TABLE (

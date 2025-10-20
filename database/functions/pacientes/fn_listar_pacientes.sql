@@ -1,9 +1,9 @@
 ------------------------------------------------------------------
--- FUNCTION: s_all_pacientes
+-- FUNCTION: fn_listar_pacientes
 -- DESCRIPCION: Listar todos los pacientes con filtros opcionales
 ------------------------------------------------------------------
 
-CREATE OR REPLACE FUNCTION s_all_pacientes(
+CREATE OR REPLACE FUNCTION fn_listar_pacientes(
     p_activo BOOLEAN DEFAULT NULL,
     p_busqueda VARCHAR(200) DEFAULT NULL,
     p_limite INT DEFAULT 50,
@@ -63,4 +63,4 @@ END;
 $$;
 
 -- Comentarios
-COMMENT ON FUNCTION s_all_pacientes IS 'Lista todos los pacientes con filtros opcionales por estado activo y búsqueda por nombre, apellido o DNI. Incluye paginación.';
+COMMENT ON FUNCTION fn_listar_pacientes IS 'Lista todos los pacientes con filtros opcionales por estado activo y búsqueda por nombre, apellido o DNI. Incluye paginación.';

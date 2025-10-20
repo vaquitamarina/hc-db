@@ -1,10 +1,10 @@
 ------------------------------------------------------------------
--- FUNCTION: s_paciente_by_id
--- DESCRIPCION: Obtener datos completos de un paciente por su ID
+-- FUNCTION: fn_buscar_paciente_por_dni
+-- DESCRIPCION: Buscar un paciente por su DNI
 ------------------------------------------------------------------
 
-CREATE OR REPLACE FUNCTION s_paciente_by_id(
-    p_id_paciente UUID
+CREATE OR REPLACE FUNCTION fn_buscar_paciente_por_dni(
+    p_dni CHAR(8)
 )
 RETURNS TABLE (
     id_paciente UUID,
@@ -25,6 +25,11 @@ RETURNS TABLE (
 LANGUAGE plpgsql
 AS $$
 BEGIN
+    -- Validar formato de DNI
+    IF NOT (p_dni ~ '^\d{8}$') THEN
+        RAISE EXCEPTION 'El DNI debe tener exactamente 8 dígitos numéricos';
+    END IF;
+
     RETURN QUERY
     SELECT 
         p.id_paciente,
@@ -43,13 +48,9 @@ BEGIN
         EXISTS(SELECT 1 FROM historia_clinica hc WHERE hc.id_paciente = p.id_paciente) AS tiene_historia_clinica
     FROM paciente p
     INNER JOIN catalogo_sexo cs ON p.id_sexo = cs.id_sexo
-    WHERE p.id_paciente = p_id_paciente;
-    
-    IF NOT FOUND THEN
-        RAISE EXCEPTION 'No se encontró un paciente con el ID proporcionado';
-    END IF;
+    WHERE p.dni = p_dni;
 END;
 $$;
 
 -- Comentarios
-COMMENT ON FUNCTION s_paciente_by_id IS 'Obtiene los datos completos de un paciente por su ID, incluyendo edad calculada y descripción del sexo';
+COMMENT ON FUNCTION fn_buscar_paciente_por_dni IS 'Busca un paciente por su DNI con validación de formato';

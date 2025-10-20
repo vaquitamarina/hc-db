@@ -1,7 +1,7 @@
 ------------------------------------------------------------------
--- DESCRIPCION: Funcion que obtiene los datos de un usuario por su codigo
+-- DESCRIPCION: Funcion que obtiene los datos de un usuario por su codigo para login
 ------------------------------------------------------------------
-CREATE OR REPLACE FUNCTION s_usuario_login(p_codigo_usuario VARCHAR)
+CREATE OR REPLACE FUNCTION fn_obtener_usuario_login(p_codigo_usuario VARCHAR)
 RETURNS TABLE (
     id_usuario UUID,
     codigo_usuario VARCHAR,

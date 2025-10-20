@@ -1,9 +1,9 @@
 ------------------------------------------------------------------
--- FUNCTION: s_paciente_existe
+-- FUNCTION: fn_verificar_paciente_existe
 -- DESCRIPCION: Verificar si un paciente existe por DNI
 ------------------------------------------------------------------
 
-CREATE OR REPLACE FUNCTION s_paciente_existe(
+CREATE OR REPLACE FUNCTION fn_verificar_paciente_existe(
     p_dni CHAR(8)
 )
 RETURNS BOOLEAN
@@ -28,4 +28,4 @@ END;
 $$;
 
 -- Comentarios
-COMMENT ON FUNCTION s_paciente_existe IS 'Verifica si existe un paciente con el DNI proporcionado. Útil para validaciones previas al registro.';
+COMMENT ON FUNCTION fn_verificar_paciente_existe IS 'Verifica si existe un paciente con el DNI proporcionado. Útil para validaciones previas al registro.';
