@@ -10,11 +10,11 @@ INSERT INTO catalogo_sexo (descripcion) VALUES
 
 -- Catálogo de Estado Civil
 INSERT INTO catalogo_estado_civil (descripcion) VALUES
-('Soltero/a'),
-('Casado/a'),
+('Soltero'),
+('Casado'),
 ('Conviviente'),
-('Divorciado/a'),
-('Viudo/a');
+('Divorciado'),
+('Viudo');
 
 -- Catálogo de Grado de Instrucción
 INSERT INTO catalogo_grado_instruccion (descripcion) VALUES

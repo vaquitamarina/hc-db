@@ -5,6 +5,8 @@ CREATE OR REPLACE FUNCTION s_paciente_adulto (p_id_estudiante uuid)
     RETURNS TABLE (
         id_paciente uuid,
         id_historia uuid,
+        nombre varchar,
+        apellido varchar,
         nombre_completo varchar,
         edad int,
         telefono varchar,
@@ -18,8 +20,10 @@ BEGIN
     SELECT
         p.id_paciente,
         h.id_historia,
-        p.nombre_completo,
-        p.edad,
+        p.nombre,
+        p.apellido,
+        (p.nombre || ' ' || p.apellido)::VARCHAR AS nombre_completo,
+        EXTRACT(YEAR FROM AGE(CURRENT_DATE, p.fecha_nacimiento))::INT AS edad,
         p.telefono,
         p.email,
         s.descripcion AS sexo,
@@ -29,8 +33,8 @@ BEGIN
         INNER JOIN paciente p ON h.id_paciente = p.id_paciente
         LEFT JOIN catalogo_sexo s ON p.id_sexo = s.id_sexo
     WHERE
-        h.id_estudiante = p_id_estudiante
-        AND p.edad >= 18;
+        h.id_usuario_estudiante = p_id_estudiante
+        AND EXTRACT(YEAR FROM AGE(CURRENT_DATE, p.fecha_nacimiento))::INT >= 18;
 END;
 $$
 LANGUAGE plpgsql;

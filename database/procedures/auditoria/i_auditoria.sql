@@ -14,6 +14,7 @@ AS $$
 BEGIN
     INSERT INTO auditoria (
         id_usuario,
+        fecha_cambio,
         nombre_tabla,
         id_registro_afectado,
         accion,
@@ -22,6 +23,7 @@ BEGIN
     )
     VALUES (
         p_id_usuario,
+        CURRENT_TIMESTAMP,
         p_nombre_tabla,
         p_id_registro_afectado,
         p_accion,

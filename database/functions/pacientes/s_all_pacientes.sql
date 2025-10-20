@@ -11,7 +11,9 @@ CREATE OR REPLACE FUNCTION s_all_pacientes(
 )
 RETURNS TABLE (
     id_paciente UUID,
-    nombre_completo VARCHAR(200),
+    nombre VARCHAR(200),
+    apellido VARCHAR(200),
+    nombre_completo VARCHAR(400),
     dni CHAR(8),
     fecha_nacimiento DATE,
     edad INT,
@@ -28,7 +30,9 @@ BEGIN
     RETURN QUERY
     SELECT 
         p.id_paciente,
-        p.nombre_completo,
+        p.nombre,
+        p.apellido,
+        (p.nombre || ' ' || p.apellido)::VARCHAR(400) AS nombre_completo,
         p.dni,
         p.fecha_nacimiento,
         EXTRACT(YEAR FROM AGE(CURRENT_DATE, p.fecha_nacimiento))::INT AS edad,
@@ -44,10 +48,12 @@ BEGIN
         -- Filtro por estado activo
         (p_activo IS NULL OR p.activo = p_activo)
         AND
-        -- Filtro por búsqueda en nombre o DNI
+        -- Filtro por búsqueda en nombre, apellido o DNI
         (
             p_busqueda IS NULL 
-            OR p.nombre_completo ILIKE '%' || p_busqueda || '%'
+            OR p.nombre ILIKE '%' || p_busqueda || '%'
+            OR p.apellido ILIKE '%' || p_busqueda || '%'
+            OR (p.nombre || ' ' || p.apellido) ILIKE '%' || p_busqueda || '%'
             OR p.dni LIKE '%' || p_busqueda || '%'
         )
     ORDER BY p.fecha_registro DESC
@@ -57,4 +63,4 @@ END;
 $$;
 
 -- Comentarios
-COMMENT ON FUNCTION s_all_pacientes IS 'Lista todos los pacientes con filtros opcionales por estado activo y búsqueda por nombre o DNI. Incluye paginación.';
+COMMENT ON FUNCTION s_all_pacientes IS 'Lista todos los pacientes con filtros opcionales por estado activo y búsqueda por nombre, apellido o DNI. Incluye paginación.';

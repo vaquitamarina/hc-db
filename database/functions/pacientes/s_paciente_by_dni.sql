@@ -8,7 +8,9 @@ CREATE OR REPLACE FUNCTION s_paciente_by_dni(
 )
 RETURNS TABLE (
     id_paciente UUID,
-    nombre_completo VARCHAR(200),
+    nombre VARCHAR(200),
+    apellido VARCHAR(200),
+    nombre_completo VARCHAR(400),
     dni CHAR(8),
     fecha_nacimiento DATE,
     edad INT,
@@ -31,7 +33,9 @@ BEGIN
     RETURN QUERY
     SELECT 
         p.id_paciente,
-        p.nombre_completo,
+        p.nombre,
+        p.apellido,
+        (p.nombre || ' ' || p.apellido)::VARCHAR(400) AS nombre_completo,
         p.dni,
         p.fecha_nacimiento,
         EXTRACT(YEAR FROM AGE(CURRENT_DATE, p.fecha_nacimiento))::INT AS edad,

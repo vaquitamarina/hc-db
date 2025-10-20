@@ -8,93 +8,77 @@ DECLARE
     v_id_usuario UUID;
     v_datos_anteriores JSONB;
     v_datos_nuevos JSONB;
+    v_id_registro UUID;
+    v_json_data JSONB;
+    v_key TEXT;
 BEGIN
     -- Obtener el ID de usuario desde la configuración de sesión
-    -- El backend debe configurar esto: SET app.current_user_id = 'uuid-del-usuario'
     BEGIN
         v_id_usuario := current_setting('app.current_user_id', true)::UUID;
     EXCEPTION
         WHEN OTHERS THEN
-            v_id_usuario := '00000000-0000-0000-0000-000000000000'::UUID; -- Usuario del sistema
+            v_id_usuario := '00000000-0000-0000-0000-000000000000'::UUID;
     END;
 
     -- Procesar según el tipo de operación
     IF (TG_OP = 'DELETE') THEN
-        -- En DELETE, solo guardamos los datos anteriores
         v_datos_anteriores := row_to_json(OLD)::JSONB;
         v_datos_nuevos := NULL;
-        
-        INSERT INTO auditoria (
-            id_usuario,
-            fecha_cambio,
-            nombre_tabla,
-            id_registro_afectado,
-            accion,
-            datos_anteriores,
-            datos_nuevos
-        ) VALUES (
-            v_id_usuario,
-            CURRENT_TIMESTAMP,
-            TG_TABLE_NAME,
-            (row_to_json(OLD)->>'id_' || SUBSTRING(TG_TABLE_NAME, 1, POSITION('_' IN TG_TABLE_NAME || '_') - 1))::UUID,
-            'DELETE',
-            v_datos_anteriores,
-            NULL
-        );
-        
-        RETURN OLD;
+        v_json_data := v_datos_anteriores;
         
     ELSIF (TG_OP = 'UPDATE') THEN
-        -- En UPDATE, guardamos antes y después
         v_datos_anteriores := row_to_json(OLD)::JSONB;
         v_datos_nuevos := row_to_json(NEW)::JSONB;
-        
-        INSERT INTO auditoria (
-            id_usuario,
-            fecha_cambio,
-            nombre_tabla,
-            id_registro_afectado,
-            accion,
-            datos_anteriores,
-            datos_nuevos
-        ) VALUES (
-            v_id_usuario,
-            CURRENT_TIMESTAMP,
-            TG_TABLE_NAME,
-            (row_to_json(NEW)->>'id_' || SUBSTRING(TG_TABLE_NAME, 1, POSITION('_' IN TG_TABLE_NAME || '_') - 1))::UUID,
-            'UPDATE',
-            v_datos_anteriores,
-            v_datos_nuevos
-        );
-        
-        RETURN NEW;
+        v_json_data := v_datos_nuevos;
         
     ELSIF (TG_OP = 'INSERT') THEN
-        -- En INSERT, solo guardamos los datos nuevos
         v_datos_anteriores := NULL;
         v_datos_nuevos := row_to_json(NEW)::JSONB;
-        
-        INSERT INTO auditoria (
-            id_usuario,
-            fecha_cambio,
-            nombre_tabla,
-            id_registro_afectado,
-            accion,
-            datos_anteriores,
-            datos_nuevos
-        ) VALUES (
-            v_id_usuario,
-            CURRENT_TIMESTAMP,
-            TG_TABLE_NAME,
-            (row_to_json(NEW)->>'id_' || SUBSTRING(TG_TABLE_NAME, 1, POSITION('_' IN TG_TABLE_NAME || '_') - 1))::UUID,
-            'INSERT',
-            NULL,
-            v_datos_nuevos
-        );
-        
-        RETURN NEW;
+        v_json_data := v_datos_nuevos;
     END IF;
     
-    RETURN NULL;
+    -- Buscar el campo ID en el JSON (intenta diferentes patrones comunes)
+    -- Primero intenta: id_<nombre_tabla>
+    v_key := 'id_' || TG_TABLE_NAME;
+    v_id_registro := (v_json_data->>v_key)::UUID;
+    
+    -- Si no lo encuentra, intenta solo 'id'
+    IF v_id_registro IS NULL THEN
+        v_id_registro := (v_json_data->>'id')::UUID;
+    END IF;
+    
+    -- Si aún es NULL, intenta buscar cualquier clave que empiece con 'id_'
+    IF v_id_registro IS NULL THEN
+        SELECT (v_json_data->>key)::UUID INTO v_id_registro
+        FROM jsonb_object_keys(v_json_data) AS key
+        WHERE key LIKE 'id_%'
+        LIMIT 1;
+    END IF;
+    
+    -- Insertar en auditoría
+    INSERT INTO auditoria (
+        id_usuario,
+        fecha_cambio,
+        nombre_tabla,
+        id_registro_afectado,
+        accion,
+        datos_anteriores,
+        datos_nuevos
+    ) VALUES (
+        v_id_usuario,
+        CURRENT_TIMESTAMP,
+        TG_TABLE_NAME,
+        v_id_registro,
+        TG_OP,
+        v_datos_anteriores,
+        v_datos_nuevos
+    );
+    
+    -- Retornar el registro apropiado
+    IF (TG_OP = 'DELETE') THEN
+        RETURN OLD;
+    ELSE
+        RETURN NEW;
+    END IF;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;

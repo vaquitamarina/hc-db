@@ -5,7 +5,8 @@
 
 CREATE TABLE paciente (
     id_paciente UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    nombre_completo VARCHAR(200) NOT NULL,
+    nombre VARCHAR(200) NOT NULL,
+    apellido VARCHAR(200) NOT NULL,
     dni CHAR(8) UNIQUE NOT NULL,
     fecha_nacimiento DATE NOT NULL,
     id_sexo UUID NOT NULL,

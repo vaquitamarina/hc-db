@@ -8,11 +8,9 @@ CREATE TABLE usuario (
     codigo_usuario VARCHAR(100) UNIQUE NOT NULL,
     nombre VARCHAR(200) NOT NULL,
     apellido VARCHAR(200) NOT NULL,
-    dni VARCHAR(20) UNIQUE NOT NULL,
+    dni CHAR(8) UNIQUE NOT NULL,
     email VARCHAR(200) UNIQUE NOT NULL,
     rol VARCHAR(50) NOT NULL,
     contrasena_hash VARCHAR(255) NOT NULL,
-    activo BOOLEAN DEFAULT TRUE,
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    fecha_modificacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    activo BOOLEAN DEFAULT TRUE
 );

@@ -23,5 +23,4 @@ CREATE TABLE revision_historia (
     observaciones TEXT
 );
 
--- Tabla de secciones de historia clínica
 

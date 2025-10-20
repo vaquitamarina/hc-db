@@ -91,15 +91,45 @@ SET client_min_messages TO WARNING;
 
 \echo '13. Creando triggers y funciones auxiliares...'
 \i ../database/triggers/fn_auditoria_automatica.sql
-\i ../database/triggers/tr_actualizar_timestamp.sql
-\i ../database/triggers/tr_validaciones_negocio.sql
-\i ../database/triggers/tr_prevenir_eliminacion.sql
+
+\echo '14. Creando usuario del sistema...'
+-- Insertar usuario del sistema para auditoría (sin trigger porque aún no están activos en esta tabla)
+INSERT INTO usuario (
+    id_usuario,
+    codigo_usuario,
+    nombre,
+    apellido,
+    dni,
+    email,
+    rol,
+    contrasena_hash,
+    activo
+) VALUES (
+    '00000000-0000-0000-0000-000000000000',
+    'SYSTEM',
+    'Sistema',
+    'Automatico',
+    '00000000',
+    'system@historiaclinica.local',
+    'admin',
+    '$argon2id$v=19$m=65536,t=3,p=4$c29tZXNhbHQ$hash',  -- Hash dummy
+    true
+);
 \i ../database/triggers/tr_auditoria_tablas.sql
 
-\echo '14. Insertando datos iniciales (seeds)...'
+
+\echo '15. Configurando usuario del sistema para seeds...'
+-- Configurar usuario del sistema para que los triggers de auditoría funcionen
+SET app.current_user_id = '00000000-0000-0000-0000-000000000000';
+
+\echo '16. Insertando datos iniciales (seeds)...'
 \i ../seeds/01_catalogos_base.sql
 \i ../seeds/02_usuarios_estudiantes.sql
 \i ../seeds/03_pacientes_desarrollo.sql
+\i ../seeds/04_historias_filiaciones.sql
+
+-- Limpiar configuración de sesión
+RESET app.current_user_id;
 
 \echo ''
 \echo '========================================='
@@ -109,6 +139,7 @@ SET client_min_messages TO WARNING;
 \echo '📊 RESUMEN DE DATOS CARGADOS:'
 \echo '  • Estudiantes: 15 usuarios reales'
 \echo '  • Pacientes: 50 pacientes de ejemplo'
+\echo '  • Historias Clínicas: 10 con filiación completa'
 \echo '  • Primer estudiante: 2023-119018 (Vaquita Marina)'
 \echo '  • Rol: student'
 \echo ''
@@ -123,7 +154,7 @@ SET client_min_messages TO WARNING;
 \echo '     • Antecedentes: personal, médico, familiar, cumplimiento'
 \echo '     • Exámenes: general, regional, ATM, auxiliares'
 \echo '     • Diagnóstico: diagnóstico, referencias, evolución, revisión'
-\echo '  ✅ Auditoría automática (5 triggers)'
+\echo '  ✅ Auditoría automática'
 \echo '  ✅ Validaciones de negocio'
 \echo '  ✅ Protección contra eliminación'
 \echo ''

@@ -15,7 +15,7 @@ SET app.current_user_id = 'de4cd964-3e8b-4552-b90a-1bd30cca2f21'; -- Vaquita Mar
 
 -- Mostrar dato antes del cambio
 \echo 'ANTES del cambio:'
-SELECT nombre_completo, telefono, email 
+SELECT nombre, apellido, telefono, email 
 FROM paciente 
 WHERE dni = '12345678'
 LIMIT 1;
@@ -28,7 +28,7 @@ WHERE dni = '12345678';
 
 \echo ''
 \echo 'DESPUÉS del cambio:'
-SELECT nombre_completo, telefono, email 
+SELECT nombre, apellido, telefono, email 
 FROM paciente 
 WHERE dni = '12345678'
 LIMIT 1;

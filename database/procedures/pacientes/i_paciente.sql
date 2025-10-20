@@ -4,7 +4,8 @@
 ------------------------------------------------------------------
 
 CREATE OR REPLACE PROCEDURE i_paciente(
-    p_nombre_completo VARCHAR(200),
+    p_nombre VARCHAR(200),
+    p_apellido VARCHAR(200),
     p_dni CHAR(8),
     p_fecha_nacimiento DATE,
     p_sexo VARCHAR(20),  -- Recibe: 'Masculino' o 'Femenino'
@@ -25,7 +26,8 @@ BEGIN
     END IF;
 
     INSERT INTO paciente (
-        nombre_completo,
+        nombre,
+        apellido,
         dni,
         fecha_nacimiento,
         id_sexo,
@@ -34,7 +36,8 @@ BEGIN
         fecha_registro,
         activo
     ) VALUES (
-        p_nombre_completo,
+        p_nombre,
+        p_apellido,
         p_dni,
         p_fecha_nacimiento,
         v_id_sexo,  -- Cambiado: usa el UUID convertido
@@ -44,7 +47,7 @@ BEGIN
         TRUE
     );
 
-    RAISE NOTICE 'Paciente registrado exitosamente con DNI: %', p_dni;
+    RAISE NOTICE 'Paciente registrado exitosamente: % % (DNI: %)', p_nombre, p_apellido, p_dni;
 
 EXCEPTION
     WHEN unique_violation THEN
