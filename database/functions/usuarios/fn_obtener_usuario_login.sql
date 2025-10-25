@@ -7,7 +7,7 @@ RETURNS TABLE (
     codigo_usuario VARCHAR,
     nombre VARCHAR,
     apellido VARCHAR,
-    dni VARCHAR,
+    dni CHAR(8),
     email VARCHAR,
     rol VARCHAR,
     contrasena_hash VARCHAR
@@ -18,7 +18,7 @@ BEGIN
            u.dni, u.email, u.rol, u.contrasena_hash
     FROM usuario u
     WHERE u.codigo_usuario = p_codigo_usuario 
-      AND u.activo = TRUE;  -- Solo usuarios activos
+      AND u.activo = TRUE;
 END;
 $$ LANGUAGE plpgsql;
 

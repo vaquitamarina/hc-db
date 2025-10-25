@@ -20,7 +20,6 @@ BEGIN
             v_id_usuario := '00000000-0000-0000-0000-000000000000'::UUID;
     END;
 
-    -- Procesar según el tipo de operación
     IF (TG_OP = 'DELETE') THEN
         v_datos_anteriores := row_to_json(OLD)::JSONB;
         v_datos_nuevos := NULL;
@@ -37,17 +36,13 @@ BEGIN
         v_json_data := v_datos_nuevos;
     END IF;
     
-    -- Buscar el campo ID en el JSON (intenta diferentes patrones comunes)
-    -- Primero intenta: id_<nombre_tabla>
     v_key := 'id_' || TG_TABLE_NAME;
     v_id_registro := (v_json_data->>v_key)::UUID;
     
-    -- Si no lo encuentra, intenta solo 'id'
     IF v_id_registro IS NULL THEN
         v_id_registro := (v_json_data->>'id')::UUID;
     END IF;
     
-    -- Si aún es NULL, intenta buscar cualquier clave que empiece con 'id_'
     IF v_id_registro IS NULL THEN
         SELECT (v_json_data->>key)::UUID INTO v_id_registro
         FROM jsonb_object_keys(v_json_data) AS key

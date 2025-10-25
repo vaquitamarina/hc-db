@@ -9,7 +9,7 @@ RETURNS TABLE (
     codigo_usuario VARCHAR,
     nombre         VARCHAR,
     apellido       VARCHAR,
-    dni            VARCHAR,
+    dni            CHAR(8),
     email          VARCHAR
 ) AS $$
 BEGIN

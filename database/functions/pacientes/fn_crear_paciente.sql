@@ -1,12 +1,12 @@
 ------------------------------------------------------------------
--- PROCEDURE: i_paciente
--- DESCRIPCION: Registrar un nuevo paciente en el sistema (para seeds)
+-- FUNCTION: fn_crear_paciente
+-- DESCRIPCION: Crea un nuevo paciente y retorna su ID
 -- PROYECTO: SN-001-2025 - Sistema de Historias Clínicas
 -- AUTOR: Equipo BD II - ESIS UNJBG
--- FECHA: 13/10/2025
+-- FECHA: 25/10/2025
 ------------------------------------------------------------------
 
-CREATE OR REPLACE PROCEDURE i_paciente(
+CREATE OR REPLACE FUNCTION fn_crear_paciente(
     p_nombre VARCHAR(200),
     p_apellido VARCHAR(200),
     p_dni CHAR(8),
@@ -15,12 +15,14 @@ CREATE OR REPLACE PROCEDURE i_paciente(
     p_telefono VARCHAR(20) DEFAULT NULL,
     p_email VARCHAR(200) DEFAULT NULL
 )
+RETURNS UUID
 LANGUAGE plpgsql
 AS $$
 DECLARE
     v_id_sexo UUID;
     v_id_paciente UUID;
 BEGIN
+    -- Obtener el UUID del sexo desde el catálogo
     SELECT id_sexo INTO v_id_sexo
     FROM catalogo_sexo
     WHERE UPPER(descripcion) = UPPER(p_sexo);
@@ -29,6 +31,7 @@ BEGIN
         RAISE EXCEPTION 'El sexo proporcionado no existe en el catálogo. Use: Masculino o Femenino';
     END IF;
 
+    -- Insertar el paciente
     INSERT INTO paciente (
         nombre,
         apellido,
@@ -52,7 +55,9 @@ BEGIN
     )
     RETURNING id_paciente INTO v_id_paciente;
 
-    RAISE NOTICE 'Paciente registrado: % % (DNI: %) con ID: %', p_nombre, p_apellido, p_dni, v_id_paciente;
+    RAISE NOTICE 'Paciente creado: % % (DNI: %) con ID: %', p_nombre, p_apellido, p_dni, v_id_paciente;
+
+    RETURN v_id_paciente;
 
 EXCEPTION
     WHEN unique_violation THEN
@@ -62,8 +67,8 @@ EXCEPTION
     WHEN check_violation THEN
         RAISE EXCEPTION 'Error de validación de datos: %', SQLERRM;
     WHEN OTHERS THEN
-        RAISE EXCEPTION 'Error al registrar paciente: %', SQLERRM;
+        RAISE EXCEPTION 'Error al crear paciente: %', SQLERRM;
 END;
 $$;
 
-COMMENT ON PROCEDURE i_paciente IS 'Registra un nuevo paciente en el sistema (version para seeds)';
+COMMENT ON FUNCTION fn_crear_paciente IS 'Crea un nuevo paciente y retorna su UUID';

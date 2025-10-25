@@ -12,7 +12,7 @@ ALTER TABLE usuario ADD CONSTRAINT chk_usuario_email
 
 -- Validaciones para tabla historia_clinica
 ALTER TABLE historia_clinica ADD CONSTRAINT chk_historia_clinica_estado 
-    CHECK (estado IN ('en_proceso', 'completada', 'aprobada', 'rechazada'));
+    CHECK (estado IN ('en_proceso', 'completada', 'aprobada', 'rechazada','borrador'));
 
 -- Validaciones para tabla auditoria
 ALTER TABLE auditoria ADD CONSTRAINT chk_auditoria_accion 

@@ -33,7 +33,7 @@ BEGIN
         INNER JOIN paciente p ON h.id_paciente = p.id_paciente
         LEFT JOIN catalogo_sexo s ON p.id_sexo = s.id_sexo
     WHERE
-        h.id_usuario_estudiante = p_id_estudiante
+        h.id_estudiante = p_id_estudiante
         AND EXTRACT(YEAR FROM AGE(CURRENT_DATE, p.fecha_nacimiento))::INT >= 18;
 END;
 $$

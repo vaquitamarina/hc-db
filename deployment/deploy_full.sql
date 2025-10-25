@@ -83,6 +83,7 @@ SET client_min_messages TO WARNING;
 \i ../database/functions/pacientes/s_pacientes_count.sql
 \i ../database/functions/pacientes/s_pacientes_sin_historia_clinica.sql
 \i ../database/functions/pacientes/fn_verificar_paciente_existe.sql
+\i ../database/functions/pacientes/fn_crear_paciente.sql
 
 \echo '12. Aplicando constraints...'
 \i ../database/constraints/foreign_keys.sql
