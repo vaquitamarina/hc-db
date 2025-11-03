@@ -44,6 +44,9 @@ SET client_min_messages TO WARNING;
 \i ../database/functions/historia_clinica/fn_obtener_filiacion.sql
 \i ../database/functions/historia_clinica/fn_crear_historia_clinica.sql
 \i ../database/functions/estudiantes/fn_obtener_pacientes_adultos.sql
+\i ../database/functions/historia_clinica/fn_obtener_o_crear_borrador.sql
+\i ../database/functions/historia_clinica/fn_asignar_paciente_a_historia.sql
+\i ../database/functions/historia_clinica/fn_obtener_paciente_por_historia.sql
 
 \echo '10. Creando procedimientos de usuarios y auditoría...'
 \i ../database/procedures/usuarios/i_usuario.sql
@@ -91,7 +94,7 @@ SET client_min_messages TO WARNING;
 \i ../database/constraints/business_rules.sql
 
 \echo '13. Creando triggers y funciones auxiliares...'
-\i ../database/triggers/fn_auditoria_automatica.sql
+--\i ../database/triggers/fn_auditoria_automatica.sql
 
 \echo '14. Creando usuario del sistema...'
 -- Insertar usuario del sistema para auditoría (sin trigger porque aún no están activos en esta tabla)
@@ -116,7 +119,8 @@ INSERT INTO usuario (
     '$argon2id$v=19$m=65536,t=3,p=4$c29tZXNhbHQ$hash',  -- Hash dummy
     true
 );
-\i ../database/triggers/tr_auditoria_tablas.sql
+--auditoria no funcional todavia por problemas con el currentuser
+--\i ../database/triggers/tr_auditoria_tablas.sql
 
 
 \echo '15. Configurando usuario del sistema para seeds...'
