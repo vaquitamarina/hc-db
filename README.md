@@ -1,9 +1,7 @@
 # 💾 Sistema de Historias Clínicas - Base de Datos
 
-**Versión:** 1.0.0  
 **Fecha:** 10 de Octubre de 2025  
 **Equipo:** Vaca Code
-**Proyecto:** SN-001-2025
 
 Este proyecto contiene la base de datos completa del Sistema de Historias Clínicas Odontológicas, diseñado para el manejo académico de historias clínicas por estudiantes de odontología bajo supervisión docente.
 
