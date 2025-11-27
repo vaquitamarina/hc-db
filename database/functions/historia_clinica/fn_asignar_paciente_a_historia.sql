@@ -2,9 +2,6 @@
 -- FUNCTION: fn_asignar_paciente_a_historia
 -- DESCRIPCION: Asigna un paciente a una historia clínica en borrador
 --              y cambia el estado a 'en_proceso'
--- PROYECTO: SN-001-2025 - Sistema de Historias Clínicas
--- AUTOR: Equipo BD II - ESIS UNJBG
--- FECHA: 26/10/2025
 ------------------------------------------------------------------
 
 CREATE OR REPLACE FUNCTION fn_asignar_paciente_a_historia(
